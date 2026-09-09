@@ -72,6 +72,22 @@ const num = (v: unknown) => Number(v ?? 0);
 const usd = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
+/** Creates the customer's profile, accounts, card and budgets once, after email confirmation. */
+async function ensureProvisioned() {
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+  if (!user) return;
+  const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
+  const { error } = await supabase.rpc("provision_customer", {
+    _full_name: meta['full_name'] ?? "",
+    _username: meta['username'] ?? "",
+    _phone: meta['phone'] ?? "",
+    _pin: meta['pin'] ?? "0000",
+    _brand: meta['card_brand'] === "mastercard" ? "mastercard" : "visa",
+  });
+  if (error) throw new Error(error.message);
+}
+
 export function BankProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<BankState>(() => emptyState());
   const [signedIn, setSignedIn] = useState(false);
