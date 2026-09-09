@@ -70,7 +70,10 @@ function CardsPage() {
             <div className="absolute -bottom-20 -left-10 size-52 rounded-full bg-white/5" />
             <div className="relative flex h-full flex-col justify-between">
               <div className="flex items-start justify-between">
-                <span className="text-lg font-semibold tracking-tight">apex</span>
+                <ApexLogo
+                  markClassName="h-8 w-8 md:h-9 md:w-9"
+                  wordClassName="text-2xl font-bold tracking-tight md:text-3xl"
+                />
                 <Wifi className="size-5 rotate-90 opacity-80" />
               </div>
               <div>
@@ -79,7 +82,7 @@ function CardsPage() {
                   {revealed ? card.number : masked}
                 </p>
               </div>
-              <div className="flex items-end justify-between text-xs">
+              <div className="flex items-end justify-between gap-3 text-xs">
                 <div>
                   <p className="opacity-70">Card holder</p>
                   <p className="text-sm font-medium uppercase">{state.profile.fullName}</p>
@@ -92,6 +95,7 @@ function CardsPage() {
                   <p className="opacity-70">CVV</p>
                   <p className="text-sm font-medium">{revealed ? card.cvv : "•••"}</p>
                 </div>
+                <CardBrandMark brand={card.brand} className="h-7 w-11 shrink-0" />
               </div>
             </div>
             {card.frozen ? (
