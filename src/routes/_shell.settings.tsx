@@ -1,0 +1,271 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { Loader2, LogOut, Moon, RotateCcw, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
+import { PageHeader } from "@/components/app-shell";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useBank } from "@/lib/bank-store";
+
+export const Route = createFileRoute("/_shell/settings")({
+  head: () => ({
+    meta: [
+      { title: "Profile & Settings — Apex Digital Bank" },
+      {
+        name: "description",
+        content:
+          "Update your Apex Digital Bank profile details, change your password, switch dark mode and manage security preferences.",
+      },
+      { property: "og:title", content: "Profile & Settings — Apex Digital Bank" },
+      {
+        property: "og:description",
+        content: "Manage your profile, password, appearance and security settings.",
+      },
+    ],
+  }),
+  component: SettingsPage,
+});
+
+function SettingsPage() {
+  const { state, updateProfile, changePassword, setDarkMode, resetDemo, signOut } = useBank();
+  const navigate = useNavigate();
+  const p = state.profile;
+
+  const [form, setForm] = useState({
+    fullName: p.fullName,
+    email: p.email,
+    phone: p.phone,
+    address: p.address,
+  });
+  const [savingProfile, setSavingProfile] = useState(false);
+
+  const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
+  const [savingPw, setSavingPw] = useState(false);
+
+  const saveProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.fullName.trim() || !form.email.trim()) {
+      toast.error("Name and email are required.");
+      return;
+    }
+    setSavingProfile(true);
+    await new Promise((r) => setTimeout(r, 600));
+    updateProfile(form);
+    setSavingProfile(false);
+    toast.success("Profile updated");
+  };
+
+  const savePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pw.next !== pw.confirm) {
+      toast.error("The new passwords don't match.");
+      return;
+    }
+    setSavingPw(true);
+    try {
+      await changePassword(pw.current, pw.next);
+      setPw({ current: "", next: "", confirm: "" });
+      toast.success("Password changed");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setSavingPw(false);
+    }
+  };
+
+  return (
+    <div>
+      <PageHeader
+        title="Profile & settings"
+        description={`Member since ${p.memberSince} · username ${p.username}`}
+      />
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Personal details</CardTitle>
+            <CardDescription>Keep your contact information current.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-4" onSubmit={saveProfile}>
+              <div className="space-y-1.5">
+                <Label htmlFor="fullName">Full name</Label>
+                <Input
+                  id="fullName"
+                  value={form.fullName}
+                  onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="phone">Phone number</Label>
+                <Input
+                  id="phone"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="address">Mailing address</Label>
+                <Input
+                  id="address"
+                  value={form.address}
+                  onChange={(e) => setForm({ ...form, address: e.target.value })}
+                />
+              </div>
+              <Button type="submit" disabled={savingProfile}>
+                {savingProfile ? <Loader2 className="size-4 animate-spin" /> : null}
+                Save changes
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ShieldCheck className="size-4 text-primary" /> Security
+              </CardTitle>
+              <CardDescription>Change the password used to sign in.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form className="space-y-4" onSubmit={savePassword}>
+                <div className="space-y-1.5">
+                  <Label htmlFor="current">Current password</Label>
+                  <Input
+                    id="current"
+                    type="password"
+                    value={pw.current}
+                    onChange={(e) => setPw({ ...pw, current: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="next">New password</Label>
+                  <Input
+                    id="next"
+                    type="password"
+                    value={pw.next}
+                    onChange={(e) => setPw({ ...pw, next: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="confirm">Confirm new password</Label>
+                  <Input
+                    id="confirm"
+                    type="password"
+                    value={pw.confirm}
+                    onChange={(e) => setPw({ ...pw, confirm: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" disabled={savingPw}>
+                  {savingPw ? <Loader2 className="size-4 animate-spin" /> : null}
+                  Update password
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Preferences</CardTitle>
+              <CardDescription>Appearance and account controls.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Moon className="size-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">Dark mode</p>
+                    <p className="text-xs text-muted-foreground">
+                      Easier on the eyes at night.
+                    </p>
+                  </div>
+                </div>
+                <Switch
+                  checked={state.darkMode}
+                  onCheckedChange={(on) => setDarkMode(on)}
+                  aria-label="Toggle dark mode"
+                />
+              </div>
+
+              <Separator />
+
+              <div className="flex flex-wrap gap-2">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline">
+                      <RotateCcw className="size-4" /> Reset demo data
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Reset demo data?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This restores the original accounts, transactions, recipients and goals.
+                        Any changes you made will be lost.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          resetDemo();
+                          toast.success("Demo data restored");
+                        }}
+                      >
+                        Reset
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    signOut();
+                    navigate({ to: "/", replace: true });
+                  }}
+                >
+                  <LogOut className="size-4" /> Sign out
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
