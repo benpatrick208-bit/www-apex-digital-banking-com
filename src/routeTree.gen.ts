@@ -19,6 +19,8 @@ import { Route as ShellDepositRouteImport } from './routes/_shell.deposit'
 import { Route as ShellGoalsRouteImport } from './routes/_shell.goals'
 import { Route as ShellInsightsRouteImport } from './routes/_shell.insights'
 import { Route as ShellNotificationsRouteImport } from './routes/_shell.notifications'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellStatementsRouteImport } from './routes/_shell.statements'
 import { Route as ShellTransactionsRouteImport } from './routes/_shell.transactions'
 import { Route as ShellTransfersRouteImport } from './routes/_shell.transfers'
 
@@ -71,6 +73,16 @@ const ShellNotificationsRoute = ShellNotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellStatementsRoute = ShellStatementsRouteImport.update({
+  id: '/statements',
+  path: '/statements',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellTransactionsRoute = ShellTransactionsRouteImport.update({
   id: '/transactions',
   path: '/transactions',
@@ -92,6 +104,8 @@ export interface FileRoutesByFullPath {
   '/goals': typeof ShellGoalsRoute
   '/insights': typeof ShellInsightsRoute
   '/notifications': typeof ShellNotificationsRoute
+  '/settings': typeof ShellSettingsRoute
+  '/statements': typeof ShellStatementsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -105,6 +119,8 @@ export interface FileRoutesByTo {
   '/goals': typeof ShellGoalsRoute
   '/insights': typeof ShellInsightsRoute
   '/notifications': typeof ShellNotificationsRoute
+  '/settings': typeof ShellSettingsRoute
+  '/statements': typeof ShellStatementsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -120,6 +136,8 @@ export interface FileRoutesById {
   '/_shell/goals': typeof ShellGoalsRoute
   '/_shell/insights': typeof ShellInsightsRoute
   '/_shell/notifications': typeof ShellNotificationsRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/statements': typeof ShellStatementsRoute
   '/_shell/transactions': typeof ShellTransactionsRoute
   '/_shell/transfers': typeof ShellTransfersRoute
 }
@@ -135,6 +153,8 @@ export interface FileRouteTypes {
     | '/goals'
     | '/insights'
     | '/notifications'
+    | '/settings'
+    | '/statements'
     | '/transactions'
     | '/transfers'
   fileRoutesByTo: FileRoutesByTo
@@ -148,6 +168,8 @@ export interface FileRouteTypes {
     | '/goals'
     | '/insights'
     | '/notifications'
+    | '/settings'
+    | '/statements'
     | '/transactions'
     | '/transfers'
   id:
@@ -162,6 +184,8 @@ export interface FileRouteTypes {
     | '/_shell/goals'
     | '/_shell/insights'
     | '/_shell/notifications'
+    | '/_shell/settings'
+    | '/_shell/statements'
     | '/_shell/transactions'
     | '/_shell/transfers'
   fileRoutesById: FileRoutesById
@@ -244,6 +268,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellNotificationsRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/statements': {
+      id: '/_shell/statements'
+      path: '/statements'
+      fullPath: '/statements'
+      preLoaderRoute: typeof ShellStatementsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/transactions': {
       id: '/_shell/transactions'
       path: '/transactions'
@@ -269,6 +307,8 @@ interface ShellRouteChildren {
   ShellGoalsRoute: typeof ShellGoalsRoute
   ShellInsightsRoute: typeof ShellInsightsRoute
   ShellNotificationsRoute: typeof ShellNotificationsRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellStatementsRoute: typeof ShellStatementsRoute
   ShellTransactionsRoute: typeof ShellTransactionsRoute
   ShellTransfersRoute: typeof ShellTransfersRoute
 }
@@ -281,6 +321,8 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellGoalsRoute: ShellGoalsRoute,
   ShellInsightsRoute: ShellInsightsRoute,
   ShellNotificationsRoute: ShellNotificationsRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
+  ShellStatementsRoute: ShellStatementsRoute,
   ShellTransactionsRoute: ShellTransactionsRoute,
   ShellTransfersRoute: ShellTransfersRoute,
 }
