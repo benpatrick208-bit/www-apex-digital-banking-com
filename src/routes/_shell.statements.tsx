@@ -68,9 +68,28 @@ function StatementsPage() {
     return keys;
   }, []);
 
+  if (!account) {
+    return (
+      <div>
+        <PageHeader
+          title="Statements"
+          description="Download official monthly statements as PDF documents."
+        />
+        <Card>
+          <CardHeader>
+            <CardTitle>No accounts yet</CardTitle>
+            <CardDescription>
+              Statements appear here once an account is open on your profile.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
   const rowsFor = (key: string) =>
     state.txns
-      .filter((t) => t.accountId === accountId && monthKey(new Date(t.date)) === key)
+      .filter((t) => t.accountId === account.id && monthKey(new Date(t.date)) === key)
       .sort((a, b) => +new Date(a.date) - +new Date(b.date));
 
   const generate = async (key: string) => {
