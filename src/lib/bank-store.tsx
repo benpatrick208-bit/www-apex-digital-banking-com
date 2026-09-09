@@ -458,8 +458,8 @@ export function BankProvider({ children }: { children: ReactNode }) {
         if (next.length < 8) throw new Error("Use at least 8 characters.");
         const { error } = await supabase.auth.updateUser({
           password: next,
-          // @ts-expect-error current_password is supported by Lovable Cloud auth
           current_password: current,
+        } as Parameters<typeof supabase.auth.updateUser>[0] & {
         });
         if (error) throw new Error(error.message);
         await notify(
