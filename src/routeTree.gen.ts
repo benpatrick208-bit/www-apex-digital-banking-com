@@ -10,11 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ShellAccountsRouteImport } from './routes/_shell.accounts'
+import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellDepositRouteImport } from './routes/_shell.deposit'
+import { Route as ShellTransactionsRouteImport } from './routes/_shell.transactions'
+import { Route as ShellTransfersRouteImport } from './routes/_shell.transfers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -22,30 +32,95 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellAccountsRoute = ShellAccountsRouteImport.update({
+  id: '/accounts',
+  path: '/accounts',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDashboardRoute = ShellDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDepositRoute = ShellDepositRouteImport.update({
+  id: '/deposit',
+  path: '/deposit',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTransactionsRoute = ShellTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTransfersRoute = ShellTransfersRouteImport.update({
+  id: '/transfers',
+  path: '/transfers',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
+  '/accounts': typeof ShellAccountsRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/deposit': typeof ShellDepositRoute
+  '/transactions': typeof ShellTransactionsRoute
+  '/transfers': typeof ShellTransfersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
+  '/accounts': typeof ShellAccountsRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/deposit': typeof ShellDepositRoute
+  '/transactions': typeof ShellTransactionsRoute
+  '/transfers': typeof ShellTransfersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_shell': typeof ShellRouteWithChildren
   '/signup': typeof SignupRoute
+  '/_shell/accounts': typeof ShellAccountsRoute
+  '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/deposit': typeof ShellDepositRoute
+  '/_shell/transactions': typeof ShellTransactionsRoute
+  '/_shell/transfers': typeof ShellTransfersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signup'
+  fullPaths:
+    | '/'
+    | '/signup'
+    | '/accounts'
+    | '/dashboard'
+    | '/deposit'
+    | '/transactions'
+    | '/transfers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signup'
-  id: '__root__' | '/' | '/signup'
+  to:
+    | '/'
+    | '/signup'
+    | '/accounts'
+    | '/dashboard'
+    | '/deposit'
+    | '/transactions'
+    | '/transfers'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/signup'
+    | '/_shell/accounts'
+    | '/_shell/dashboard'
+    | '/_shell/deposit'
+    | '/_shell/transactions'
+    | '/_shell/transfers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ShellRoute: typeof ShellRouteWithChildren
   SignupRoute: typeof SignupRoute
 }
 
@@ -58,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell': {
+      id: '/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -65,11 +147,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/accounts': {
+      id: '/_shell/accounts'
+      path: '/accounts'
+      fullPath: '/accounts'
+      preLoaderRoute: typeof ShellAccountsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/dashboard': {
+      id: '/_shell/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/deposit': {
+      id: '/_shell/deposit'
+      path: '/deposit'
+      fullPath: '/deposit'
+      preLoaderRoute: typeof ShellDepositRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/transactions': {
+      id: '/_shell/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof ShellTransactionsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/transfers': {
+      id: '/_shell/transfers'
+      path: '/transfers'
+      fullPath: '/transfers'
+      preLoaderRoute: typeof ShellTransfersRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
+interface ShellRouteChildren {
+  ShellAccountsRoute: typeof ShellAccountsRoute
+  ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellDepositRoute: typeof ShellDepositRoute
+  ShellTransactionsRoute: typeof ShellTransactionsRoute
+  ShellTransfersRoute: typeof ShellTransfersRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellAccountsRoute: ShellAccountsRoute,
+  ShellDashboardRoute: ShellDashboardRoute,
+  ShellDepositRoute: ShellDepositRoute,
+  ShellTransactionsRoute: ShellTransactionsRoute,
+  ShellTransfersRoute: ShellTransfersRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ShellRoute: ShellRouteWithChildren,
   SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport

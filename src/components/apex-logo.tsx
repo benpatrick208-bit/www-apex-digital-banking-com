@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /** Original Apex octagon mark: an octagon holding an upward apex chevron. */
-export function ApexMark({ className }: { className?: string }) {
+export function ApexMark({ className }: { className?: string | undefined }) {
   return (
     <svg viewBox="0 0 48 48" aria-hidden="true" className={cn("h-9 w-9", className)}>
       <polygon
