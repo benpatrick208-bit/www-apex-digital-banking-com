@@ -192,8 +192,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
     const apply = async (uid: string | null) => {
       userId.current = uid;
       setSignedIn(!!uid);
-      if (uid) await load();
-      else setState(emptyState());
+      if (uid) {
+        await ensureProvisioned();
+        await load();
+      } else setState(emptyState());
       if (active) setReady(true);
     };
 
@@ -267,24 +269,25 @@ export function BankProvider({ children }: { children: ReactNode }) {
         const { data, error } = await supabase.auth.signUp({
           email: input.email.trim(),
           password: input.password,
-          options: { emailRedirectTo: window.location.origin },
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: {
+              full_name: input.fullName,
+              username: input.username,
+              phone: input.phone,
+              pin: input.pin,
+              card_brand: input.brand,
+            },
+          },
         });
         if (error) throw new Error(error.message);
-        if (!data.session) {
-          throw new Error(
-            "Check your inbox — we sent a confirmation link. Confirm your email, then sign in.",
-          );
-        }
+        if (!data.session) return { needsConfirmation: true };
+
         userId.current = data.session.user.id;
-        const { error: setupError } = await supabase.rpc("provision_customer", {
-          _full_name: input.fullName,
-          _username: input.username,
-          _phone: input.phone,
-          _pin: input.pin,
-        });
-        if (setupError) throw new Error(setupError.message);
+        await ensureProvisioned();
         setSignedIn(true);
         await load();
+        return { needsConfirmation: false };
       },
 
       verifyPin: (pin) => pin === state.profile.pin,
