@@ -13,8 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ShellAccountsRouteImport } from './routes/_shell.accounts'
+import { Route as ShellCardsRouteImport } from './routes/_shell.cards'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellDepositRouteImport } from './routes/_shell.deposit'
+import { Route as ShellInsightsRouteImport } from './routes/_shell.insights'
 import { Route as ShellTransactionsRouteImport } from './routes/_shell.transactions'
 import { Route as ShellTransfersRouteImport } from './routes/_shell.transfers'
 
@@ -37,6 +39,11 @@ const ShellAccountsRoute = ShellAccountsRouteImport.update({
   path: '/accounts',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellCardsRoute = ShellCardsRouteImport.update({
+  id: '/cards',
+  path: '/cards',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -45,6 +52,11 @@ const ShellDashboardRoute = ShellDashboardRouteImport.update({
 const ShellDepositRoute = ShellDepositRouteImport.update({
   id: '/deposit',
   path: '/deposit',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellInsightsRoute = ShellInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellTransactionsRoute = ShellTransactionsRouteImport.update({
@@ -62,8 +74,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
+  '/cards': typeof ShellCardsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/deposit': typeof ShellDepositRoute
+  '/insights': typeof ShellInsightsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -71,8 +85,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
+  '/cards': typeof ShellCardsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/deposit': typeof ShellDepositRoute
+  '/insights': typeof ShellInsightsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -82,8 +98,10 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/signup': typeof SignupRoute
   '/_shell/accounts': typeof ShellAccountsRoute
+  '/_shell/cards': typeof ShellCardsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/deposit': typeof ShellDepositRoute
+  '/_shell/insights': typeof ShellInsightsRoute
   '/_shell/transactions': typeof ShellTransactionsRoute
   '/_shell/transfers': typeof ShellTransfersRoute
 }
@@ -93,8 +111,10 @@ export interface FileRouteTypes {
     | '/'
     | '/signup'
     | '/accounts'
+    | '/cards'
     | '/dashboard'
     | '/deposit'
+    | '/insights'
     | '/transactions'
     | '/transfers'
   fileRoutesByTo: FileRoutesByTo
@@ -102,8 +122,10 @@ export interface FileRouteTypes {
     | '/'
     | '/signup'
     | '/accounts'
+    | '/cards'
     | '/dashboard'
     | '/deposit'
+    | '/insights'
     | '/transactions'
     | '/transfers'
   id:
@@ -112,8 +134,10 @@ export interface FileRouteTypes {
     | '/_shell'
     | '/signup'
     | '/_shell/accounts'
+    | '/_shell/cards'
     | '/_shell/dashboard'
     | '/_shell/deposit'
+    | '/_shell/insights'
     | '/_shell/transactions'
     | '/_shell/transfers'
   fileRoutesById: FileRoutesById
@@ -154,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellAccountsRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/cards': {
+      id: '/_shell/cards'
+      path: '/cards'
+      fullPath: '/cards'
+      preLoaderRoute: typeof ShellCardsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
@@ -166,6 +197,13 @@ declare module '@tanstack/react-router' {
       path: '/deposit'
       fullPath: '/deposit'
       preLoaderRoute: typeof ShellDepositRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/insights': {
+      id: '/_shell/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof ShellInsightsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/transactions': {
@@ -187,16 +225,20 @@ declare module '@tanstack/react-router' {
 
 interface ShellRouteChildren {
   ShellAccountsRoute: typeof ShellAccountsRoute
+  ShellCardsRoute: typeof ShellCardsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellDepositRoute: typeof ShellDepositRoute
+  ShellInsightsRoute: typeof ShellInsightsRoute
   ShellTransactionsRoute: typeof ShellTransactionsRoute
   ShellTransfersRoute: typeof ShellTransfersRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAccountsRoute: ShellAccountsRoute,
+  ShellCardsRoute: ShellCardsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellDepositRoute: ShellDepositRoute,
+  ShellInsightsRoute: ShellInsightsRoute,
   ShellTransactionsRoute: ShellTransactionsRoute,
   ShellTransfersRoute: ShellTransfersRoute,
 }
