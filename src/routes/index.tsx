@@ -1,192 +1,284 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Loader2, Lock, User } from "lucide-react";
-import { ApexLogo } from "@/components/apex-logo";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowLeftRight,
+  ArrowRight,
+  BadgeCheck,
+  FileText,
+  LineChart,
+  Lock,
+  PiggyBank,
+  ShieldCheck,
+  Smartphone,
+  CreditCard,
+  Wallet,
+} from "lucide-react";
+import { ApexLogo, ApexMark } from "@/components/apex-logo";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useBank } from "@/lib/bank-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sign in — Apex Digital Bank" },
+      { title: "Apex Digital Bank — Online & Mobile Banking" },
       {
         name: "description",
         content:
-          "Sign in to Apex Digital Bank to check balances, move money, deposit checks and manage your cards.",
+          "Bank with Apex Digital Bank: free checking, high-yield savings, instant transfers, mobile deposit and smart card controls. Open an account online in minutes.",
       },
-      { property: "og:title", content: "Sign in — Apex Digital Bank" },
+      { property: "og:title", content: "Apex Digital Bank — Online & Mobile Banking" },
       {
         property: "og:description",
-        content: "Secure online banking sign in for Apex Digital Bank customers.",
+        content:
+          "Premium digital banking: checking, savings, transfers, deposits and card controls.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: LoginPage,
+  component: HomePage,
 });
 
-function LoginPage() {
-  const { signIn, signedIn, ready } = useBank();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(true);
-  const [useToken, setUseToken] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+const services = [
+  {
+    icon: Wallet,
+    title: "Everyday checking",
+    text: "A full-featured checking account with no monthly maintenance fee, instant alerts and your account and routing numbers available the moment you're approved.",
+  },
+  {
+    icon: PiggyBank,
+    title: "High-yield savings",
+    text: "Grow your money with a competitive variable APY, automatic savings goals and round-the-clock access from any device.",
+  },
+  {
+    icon: ArrowLeftRight,
+    title: "Transfers & payments",
+    text: "Move money between your Apex accounts or to favorite recipients, schedule future and recurring transfers, and track every payment in real time.",
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile deposit",
+    text: "Snap a photo of a check and deposit it from anywhere. Funds availability is shown clearly before you confirm.",
+  },
+  {
+    icon: CreditCard,
+    title: "Virtual debit cards",
+    text: "Choose Visa or Mastercard, freeze and unfreeze instantly, and shop online the moment your account is open.",
+  },
+  {
+    icon: LineChart,
+    title: "Insights & budgets",
+    text: "Spending breakdowns, monthly budgets, savings goals and downloadable PDF statements keep you in control of your money.",
+  },
+];
 
-  useEffect(() => {
-    if (ready && signedIn) navigate({ to: "/dashboard", replace: true });
-  }, [ready, signedIn, navigate]);
+const steps = [
+  {
+    title: "Tell us about yourself",
+    text: "Enter your full name, email and phone number and create a secure password and PIN — it takes about two minutes.",
+  },
+  {
+    title: "Confirm your email",
+    text: "We send a confirmation link to your inbox. One click verifies it's really you and activates your profile.",
+  },
+  {
+    title: "Start banking",
+    text: "Sign in to see your new checking and savings accounts, your 9-digit account number, routing number 084307761, and your virtual Visa or Mastercard.",
+  },
+];
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      await signIn(email, password);
-      navigate({ to: "/dashboard", replace: true });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to sign in.");
-    } finally {
-      setLoading(false);
-    }
-  };
+function Header() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-navy-foreground/10 bg-navy/95 backdrop-blur">
+      <div className="surface-navy">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <Link to="/" aria-label="Apex Digital Bank home">
+            <ApexLogo className="text-navy-foreground" markClassName="h-8 w-8 text-gold" wordClassName="text-xl" />
+          </Link>
+          <nav className="hidden items-center gap-7 text-sm font-medium text-navy-foreground/85 md:flex">
+            <a href="#services" className="transition-colors hover:text-navy-foreground">
+              Services
+            </a>
+            <a href="#open-account" className="transition-colors hover:text-navy-foreground">
+              Open an account
+            </a>
+            <Link to="/about" className="transition-colors hover:text-navy-foreground">
+              About us
+            </Link>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Button
+              asChild
+              variant="ghost"
+              className="text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"
+            >
+              <Link to="/login">Sign in</Link>
+            </Button>
+            <Button asChild className="bg-gold text-gold-foreground hover:bg-gold/90">
+              <Link to="/signup">Open an account</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
 
+function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <main className="relative flex-1">
-        {/* Top half solid blue */}
-        <div className="surface-navy relative h-[46vh] min-h-[260px] w-full md:h-[52vh]">
-          <div className="mx-auto flex h-full max-w-6xl items-start px-6 pt-10 md:pt-14">
-            <ApexLogo
-              className="text-navy-foreground"
-              markClassName="h-10 w-10 md:h-12 md:w-12"
-              wordClassName="text-3xl md:text-4xl"
-            />
-          </div>
-        </div>
+      <Header />
 
-        {/* Login card overlapping the split */}
-        <div className="mx-auto -mt-28 w-full max-w-md px-5 md:-mt-36 md:max-w-lg">
-          <div className="card-elevated rounded-2xl border border-border bg-card p-6 md:p-9">
-            <h1 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-              Sign in to your account
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Welcome back. Your session is encrypted end to end.
-            </p>
-
-            {error ? (
-              <Alert variant="destructive" className="mt-5">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            ) : null}
-
-            <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email address</Label>
-                <div className="relative">
-                  <User className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    className="h-12 pl-9"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
+      <main className="flex-1">
+        {/* Hero */}
+        <section className="surface-navy relative overflow-hidden">
+          <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
+            <div>
+              <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold tracking-wide text-gold">
+                <ShieldCheck className="size-3.5" /> Member FDIC · Equal Housing Lender
+              </p>
+              <h1 className="mt-5 text-4xl font-bold tracking-tight text-navy-foreground md:text-5xl lg:text-6xl">
+                Banking that reaches your apex
+              </h1>
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-navy-foreground/80 md:text-lg">
+                Checking, high-yield savings, instant transfers and smart card controls —
+                everything you expect from a modern bank, in one secure app.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="h-12 bg-gold px-6 text-base text-gold-foreground hover:bg-gold/90">
+                  <Link to="/signup">
+                    Open an account <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-12 border-navy-foreground/30 bg-transparent px-6 text-base text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"
+                >
+                  <Link to="/login">Sign in</Link>
+                </Button>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    autoComplete="current-password"
-                    className="h-12 pl-9"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
-                <label className="flex items-center gap-2 text-sm text-foreground">
-                  <Checkbox
-                    checked={remember}
-                    onCheckedChange={(v) => setRemember(v === true)}
-                    aria-label="Remember me"
-                  />
-                  Remember me
-                </label>
-                <label className="flex items-center gap-2 text-sm text-foreground">
-                  <Checkbox
-                    checked={useToken}
-                    onCheckedChange={(v) => setUseToken(v === true)}
-                    aria-label="Use token"
-                  />
-                  Use token
-                </label>
-              </div>
-
-              {useToken ? (
-                <div className="space-y-2">
-                  <Label htmlFor="token">Security token code</Label>
-                  <Input
-                    id="token"
-                    inputMode="numeric"
-                    className="h-12 tracking-[0.4em]"
-                    placeholder="000000"
-                  />
-                </div>
-              ) : null}
-
-              <Button type="submit" size="lg" className="h-13 w-full text-base" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="size-4 animate-spin" /> Signing in…
-                  </>
-                ) : (
-                  "Sign in"
-                )}
-              </Button>
-            </form>
-
-            <div className="mt-5 text-center">
-              <span className="cursor-pointer text-sm font-medium text-primary hover:underline">
-                Forgot username or password?
-              </span>
             </div>
 
+            {/* Balance card illustration */}
+            <div className="relative mx-auto w-full max-w-md">
+              <div className="card-elevated rounded-2xl border border-navy-foreground/15 bg-card p-6 text-card-foreground">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ApexMark className="h-7 w-7 text-primary" />
+                    <span className="text-sm font-semibold lowercase tracking-tight">apex checking</span>
+                  </div>
+                  <span className="text-xs text-muted-foreground">Available balance</span>
+                </div>
+                <p className="mt-4 text-4xl font-bold tracking-tight">$2,450.00</p>
+                <div className="gold-rule my-5 h-px w-full opacity-70" />
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="rounded-lg bg-muted p-3">
+                    <p className="text-xs text-muted-foreground">Account number</p>
+                    <p className="mt-0.5 font-semibold tracking-wider">••••••4217</p>
+                  </div>
+                  <div className="rounded-lg bg-muted p-3">
+                    <p className="text-xs text-muted-foreground">Routing number</p>
+                    <p className="mt-0.5 font-semibold tracking-wider">084307761</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                  <Lock className="size-3.5 text-success" /> 256-bit encrypted · real-time alerts on
+                </div>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div className="mt-6 flex items-center justify-center gap-3 pb-12 text-sm text-muted-foreground">
-            <Link to="/signup" className="font-medium text-primary hover:underline">
-              Sign up
-            </Link>
-            <span aria-hidden>•</span>
-            <Link to="/signup" className="hover:text-foreground">
-              Open an account
-            </Link>
-            <span aria-hidden>•</span>
-            <span className="cursor-pointer hover:text-foreground">Privacy</span>
-            <span aria-hidden className="tracking-widest">
-              •••
-            </span>
+        {/* Services */}
+        <section id="services" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-16 md:py-24">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Our services</h2>
+            <p className="mt-3 text-muted-foreground md:text-lg">
+              Everything you need to spend, save and grow — built for phone, tablet and desktop.
+            </p>
           </div>
-        </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((s) => (
+              <article
+                key={s.title}
+                className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-elevated)]"
+              >
+                <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <s.icon className="size-5.5" />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold tracking-tight">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* How to open an account */}
+        <section id="open-account" className="scroll-mt-20 bg-secondary/60">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                How to open an account
+              </h2>
+              <p className="mt-3 text-muted-foreground md:text-lg">
+                Three simple steps — no branch visit, no paperwork, no waiting in line.
+              </p>
+            </div>
+            <ol className="mt-10 grid gap-5 md:grid-cols-3">
+              {steps.map((step, i) => (
+                <li key={step.title} className="rounded-2xl border border-border bg-card p-6">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-primary text-base font-bold text-primary-foreground">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold tracking-tight">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.text}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="h-12 px-6 text-base">
+                <Link to="/signup">
+                  Get started <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <BadgeCheck className="size-4 text-success" /> No opening deposit required
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust strip */}
+        <section className="mx-auto max-w-6xl px-6 py-14">
+          <div className="grid gap-6 rounded-2xl border border-border bg-card p-8 sm:grid-cols-3">
+            {[
+              {
+                icon: ShieldCheck,
+                title: "FDIC insured",
+                text: "Deposits insured up to $250,000 per depositor, per ownership category.",
+              },
+              {
+                icon: Lock,
+                title: "Bank-grade security",
+                text: "End-to-end encryption, PIN confirmation and instant card freeze controls.",
+              },
+              {
+                icon: FileText,
+                title: "Clear statements",
+                text: "Download PDF statements any time — no fees, no surprises.",
+              },
+            ].map((t) => (
+              <div key={t.title} className="flex gap-3">
+                <t.icon className="mt-0.5 size-5 shrink-0 text-gold" />
+                <div>
+                  <h3 className="font-semibold tracking-tight">{t.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       <SiteFooter tone="navy" />
