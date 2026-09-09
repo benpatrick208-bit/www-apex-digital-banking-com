@@ -48,7 +48,7 @@ function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      await signIn(username, password);
+      await signIn(email, password);
       navigate({ to: "/dashboard", replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to sign in.");
@@ -89,16 +89,17 @@ function LoginPage() {
 
             <form className="mt-6 space-y-4" onSubmit={onSubmit}>
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email address</Label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    id="username"
-                    autoComplete="username"
+                    id="email"
+                    type="email"
+                    autoComplete="email"
                     className="h-12 pl-9"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
                     required
                   />
                 </div>
@@ -169,10 +170,6 @@ function LoginPage() {
               </span>
             </div>
 
-            <p className="mt-5 rounded-lg bg-muted px-3 py-2 text-center text-xs text-muted-foreground">
-              Demo credentials — username <strong>{state.profile.username}</strong>, password{" "}
-              <strong>apex1234</strong>, PIN <strong>2468</strong>
-            </p>
           </div>
 
           <div className="mt-6 flex items-center justify-center gap-3 pb-12 text-sm text-muted-foreground">
