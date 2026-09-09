@@ -16,7 +16,9 @@ import { Route as ShellAccountsRouteImport } from './routes/_shell.accounts'
 import { Route as ShellCardsRouteImport } from './routes/_shell.cards'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellDepositRouteImport } from './routes/_shell.deposit'
+import { Route as ShellGoalsRouteImport } from './routes/_shell.goals'
 import { Route as ShellInsightsRouteImport } from './routes/_shell.insights'
+import { Route as ShellNotificationsRouteImport } from './routes/_shell.notifications'
 import { Route as ShellTransactionsRouteImport } from './routes/_shell.transactions'
 import { Route as ShellTransfersRouteImport } from './routes/_shell.transfers'
 
@@ -54,9 +56,19 @@ const ShellDepositRoute = ShellDepositRouteImport.update({
   path: '/deposit',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellGoalsRoute = ShellGoalsRouteImport.update({
+  id: '/goals',
+  path: '/goals',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellInsightsRoute = ShellInsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellNotificationsRoute = ShellNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellTransactionsRoute = ShellTransactionsRouteImport.update({
@@ -77,7 +89,9 @@ export interface FileRoutesByFullPath {
   '/cards': typeof ShellCardsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/deposit': typeof ShellDepositRoute
+  '/goals': typeof ShellGoalsRoute
   '/insights': typeof ShellInsightsRoute
+  '/notifications': typeof ShellNotificationsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -88,7 +102,9 @@ export interface FileRoutesByTo {
   '/cards': typeof ShellCardsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/deposit': typeof ShellDepositRoute
+  '/goals': typeof ShellGoalsRoute
   '/insights': typeof ShellInsightsRoute
+  '/notifications': typeof ShellNotificationsRoute
   '/transactions': typeof ShellTransactionsRoute
   '/transfers': typeof ShellTransfersRoute
 }
@@ -101,7 +117,9 @@ export interface FileRoutesById {
   '/_shell/cards': typeof ShellCardsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/deposit': typeof ShellDepositRoute
+  '/_shell/goals': typeof ShellGoalsRoute
   '/_shell/insights': typeof ShellInsightsRoute
+  '/_shell/notifications': typeof ShellNotificationsRoute
   '/_shell/transactions': typeof ShellTransactionsRoute
   '/_shell/transfers': typeof ShellTransfersRoute
 }
@@ -114,7 +132,9 @@ export interface FileRouteTypes {
     | '/cards'
     | '/dashboard'
     | '/deposit'
+    | '/goals'
     | '/insights'
+    | '/notifications'
     | '/transactions'
     | '/transfers'
   fileRoutesByTo: FileRoutesByTo
@@ -125,7 +145,9 @@ export interface FileRouteTypes {
     | '/cards'
     | '/dashboard'
     | '/deposit'
+    | '/goals'
     | '/insights'
+    | '/notifications'
     | '/transactions'
     | '/transfers'
   id:
@@ -137,7 +159,9 @@ export interface FileRouteTypes {
     | '/_shell/cards'
     | '/_shell/dashboard'
     | '/_shell/deposit'
+    | '/_shell/goals'
     | '/_shell/insights'
+    | '/_shell/notifications'
     | '/_shell/transactions'
     | '/_shell/transfers'
   fileRoutesById: FileRoutesById
@@ -199,11 +223,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellDepositRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/goals': {
+      id: '/_shell/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof ShellGoalsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/insights': {
       id: '/_shell/insights'
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof ShellInsightsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/notifications': {
+      id: '/_shell/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof ShellNotificationsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/transactions': {
@@ -228,7 +266,9 @@ interface ShellRouteChildren {
   ShellCardsRoute: typeof ShellCardsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellDepositRoute: typeof ShellDepositRoute
+  ShellGoalsRoute: typeof ShellGoalsRoute
   ShellInsightsRoute: typeof ShellInsightsRoute
+  ShellNotificationsRoute: typeof ShellNotificationsRoute
   ShellTransactionsRoute: typeof ShellTransactionsRoute
   ShellTransfersRoute: typeof ShellTransfersRoute
 }
@@ -238,7 +278,9 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellCardsRoute: ShellCardsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellDepositRoute: ShellDepositRoute,
+  ShellGoalsRoute: ShellGoalsRoute,
   ShellInsightsRoute: ShellInsightsRoute,
+  ShellNotificationsRoute: ShellNotificationsRoute,
   ShellTransactionsRoute: ShellTransactionsRoute,
   ShellTransfersRoute: ShellTransfersRoute,
 }
