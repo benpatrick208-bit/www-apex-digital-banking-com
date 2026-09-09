@@ -14,13 +14,340 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accounts: {
+        Row: {
+          apy: number | null
+          available: number
+          balance: number
+          created_at: string
+          credit_limit: number | null
+          id: string
+          name: string
+          number: string
+          routing: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          apy?: number | null
+          available?: number
+          balance?: number
+          created_at?: string
+          credit_limit?: number | null
+          id?: string
+          name: string
+          number: string
+          routing?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          apy?: number | null
+          available?: number
+          balance?: number
+          created_at?: string
+          credit_limit?: number | null
+          id?: string
+          name?: string
+          number?: string
+          routing?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      budgets: {
+        Row: {
+          category: string
+          id: string
+          limit_amount: number
+          user_id: string
+        }
+        Insert: {
+          category: string
+          id?: string
+          limit_amount?: number
+          user_id: string
+        }
+        Update: {
+          category?: string
+          id?: string
+          limit_amount?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cards: {
+        Row: {
+          cvv: string
+          expiry: string
+          frozen: boolean
+          id: string
+          number: string
+          user_id: string
+        }
+        Insert: {
+          cvv: string
+          expiry: string
+          frozen?: boolean
+          id?: string
+          number: string
+          user_id: string
+        }
+        Update: {
+          cvv?: string
+          expiry?: string
+          frozen?: boolean
+          id?: string
+          number?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      goals: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          saved: number
+          target: number
+          target_date: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          saved?: number
+          target: number
+          target_date?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          saved?: number
+          target?: number
+          target_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string
+          date: string
+          id: string
+          kind: string
+          read: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          date?: string
+          id?: string
+          kind?: string
+          read?: boolean
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          date?: string
+          id?: string
+          kind?: string
+          read?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string
+          created_at: string
+          credit_score: number
+          dark_mode: boolean
+          email: string
+          full_name: string
+          id: string
+          member_since: string
+          phone: string
+          pin: string
+          username: string
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          credit_score?: number
+          dark_mode?: boolean
+          email?: string
+          full_name?: string
+          id: string
+          member_since?: string
+          phone?: string
+          pin?: string
+          username?: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          credit_score?: number
+          dark_mode?: boolean
+          email?: string
+          full_name?: string
+          id?: string
+          member_since?: string
+          phone?: string
+          pin?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      recipients: {
+        Row: {
+          account_mask: string
+          bank: string
+          created_at: string
+          favorite: boolean
+          id: string
+          name: string
+          routing: string
+          user_id: string
+        }
+        Insert: {
+          account_mask?: string
+          bank?: string
+          created_at?: string
+          favorite?: boolean
+          id?: string
+          name: string
+          routing?: string
+          user_id: string
+        }
+        Update: {
+          account_mask?: string
+          bank?: string
+          created_at?: string
+          favorite?: boolean
+          id?: string
+          name?: string
+          routing?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      scheduled_transfers: {
+        Row: {
+          active: boolean
+          amount: number
+          frequency: string
+          from_account_id: string
+          id: string
+          next_date: string
+          recipient_id: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          amount: number
+          frequency: string
+          from_account_id: string
+          id?: string
+          next_date: string
+          recipient_id: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          amount?: number
+          frequency?: string
+          from_account_id?: string
+          id?: string
+          next_date?: string
+          recipient_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_transfers_from_account_id_fkey"
+            columns: ["from_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_transfers_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "recipients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          account_id: string
+          amount: number
+          category: string
+          date: string
+          description: string
+          id: string
+          merchant: string
+          method: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          category?: string
+          date?: string
+          description: string
+          id?: string
+          merchant?: string
+          method?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          category?: string
+          date?: string
+          description?: string
+          id?: string
+          merchant?: string
+          method?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      provision_customer: {
+        Args: {
+          _full_name?: string
+          _phone?: string
+          _pin?: string
+          _username?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
