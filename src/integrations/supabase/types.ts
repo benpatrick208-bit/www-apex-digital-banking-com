@@ -79,6 +79,7 @@ export type Database = {
       }
       cards: {
         Row: {
+          brand: string
           cvv: string
           expiry: string
           frozen: boolean
@@ -87,6 +88,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          brand?: string
           cvv: string
           expiry: string
           frozen?: boolean
@@ -95,6 +97,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          brand?: string
           cvv?: string
           expiry?: string
           frozen?: boolean
@@ -341,6 +344,7 @@ export type Database = {
     Functions: {
       provision_customer: {
         Args: {
+          _brand?: string
           _full_name?: string
           _phone?: string
           _pin?: string

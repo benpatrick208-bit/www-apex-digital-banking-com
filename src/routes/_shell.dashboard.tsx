@@ -62,7 +62,11 @@ function DashboardPage() {
   return (
     <>
       <PageHeader
-        title="Dashboard"
+        title={
+          state.profile.fullName
+            ? `Welcome back, ${state.profile.fullName}`
+            : "Dashboard"
+        }
         description="A complete view of your money with Apex."
         action={
           <Button variant="outline" size="sm" onClick={() => setHidden((h) => !h)}>

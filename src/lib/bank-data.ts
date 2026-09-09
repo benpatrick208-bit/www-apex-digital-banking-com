@@ -80,7 +80,13 @@ export type BankState = {
   goals: Goal[];
   notifications: Notification[];
   budgets: { category: string; limit: number }[];
-  card: { number: string; cvv: string; expiry: string; frozen: boolean };
+  card: {
+    number: string;
+    cvv: string;
+    expiry: string;
+    frozen: boolean;
+    brand: "visa" | "mastercard";
+  };
   darkMode: boolean;
 };
 
@@ -105,7 +111,13 @@ export function emptyState(): BankState {
     goals: [],
     notifications: [],
     budgets: [],
-    card: { number: "•••• •••• •••• ••••", cvv: "•••", expiry: "--/--", frozen: false },
+    card: {
+      number: "•••• •••• •••• ••••",
+      cvv: "•••",
+      expiry: "--/--",
+      frozen: false,
+      brand: "visa",
+    },
     darkMode: false,
   };
 }

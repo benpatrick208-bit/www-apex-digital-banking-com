@@ -30,7 +30,8 @@ type Ctx = {
     phone: string;
     password: string;
     pin: string;
-  }) => Promise<void>;
+    brand: "visa" | "mastercard";
+  }) => Promise<{ needsConfirmation: boolean }>;
   verifyPin: (pin: string) => boolean;
   transfer: (input: {
     fromAccountId: string;
@@ -70,6 +71,22 @@ const num = (v: unknown) => Number(v ?? 0);
 
 const usd = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+
+/** Creates the customer's profile, accounts, card and budgets once, after email confirmation. */
+async function ensureProvisioned() {
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+  if (!user) return;
+  const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
+  const { error } = await supabase.rpc("provision_customer", {
+    _full_name: meta['full_name'] ?? "",
+    _username: meta['username'] ?? "",
+    _phone: meta['phone'] ?? "",
+    _pin: meta['pin'] ?? "0000",
+    _brand: meta['card_brand'] === "mastercard" ? "mastercard" : "visa",
+  });
+  if (error) throw new Error(error.message);
+}
 
 export function BankProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<BankState>(() => emptyState());
@@ -172,7 +189,14 @@ export function BankProvider({ children }: { children: ReactNode }) {
         kind: n.kind as "money" | "security" | "offer",
       })),
       card: card
-        ? { number: card.number, cvv: card.cvv, expiry: card.expiry, frozen: card.frozen }
+        ? {
+            number: card.number,
+            cvv: card.cvv,
+            expiry: card.expiry,
+            frozen: card.frozen,
+            brand:
+              (card as { brand?: string }).brand === "mastercard" ? "mastercard" : "visa",
+          }
         : base.card,
       darkMode: profile.data?.dark_mode ?? false,
     });
@@ -184,8 +208,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
     const apply = async (uid: string | null) => {
       userId.current = uid;
       setSignedIn(!!uid);
-      if (uid) await load();
-      else setState(emptyState());
+      if (uid) {
+        await ensureProvisioned();
+        await load();
+      } else setState(emptyState());
       if (active) setReady(true);
     };
 
@@ -259,24 +285,25 @@ export function BankProvider({ children }: { children: ReactNode }) {
         const { data, error } = await supabase.auth.signUp({
           email: input.email.trim(),
           password: input.password,
-          options: { emailRedirectTo: window.location.origin },
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: {
+              full_name: input.fullName,
+              username: input.username,
+              phone: input.phone,
+              pin: input.pin,
+              card_brand: input.brand,
+            },
+          },
         });
         if (error) throw new Error(error.message);
-        if (!data.session) {
-          throw new Error(
-            "Check your inbox — we sent a confirmation link. Confirm your email, then sign in.",
-          );
-        }
+        if (!data.session) return { needsConfirmation: true };
+
         userId.current = data.session.user.id;
-        const { error: setupError } = await supabase.rpc("provision_customer", {
-          _full_name: input.fullName,
-          _username: input.username,
-          _phone: input.phone,
-          _pin: input.pin,
-        });
-        if (setupError) throw new Error(setupError.message);
+        await ensureProvisioned();
         setSignedIn(true);
         await load();
+        return { needsConfirmation: false };
       },
 
       verifyPin: (pin) => pin === state.profile.pin,
