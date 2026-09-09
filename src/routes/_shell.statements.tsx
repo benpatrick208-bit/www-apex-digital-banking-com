@@ -54,10 +54,10 @@ function monthLabel(key: string) {
 
 function StatementsPage() {
   const { state } = useBank();
-  const [accountId, setAccountId] = useState(state.accounts[0]!.id);
+  const [accountId, setAccountId] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
 
-  const account = state.accounts.find((a) => a.id === accountId)!;
+  const account = state.accounts.find((a) => a.id === accountId) ?? state.accounts[0];
 
   const periods = useMemo(() => {
     const keys: string[] = [];
@@ -68,9 +68,28 @@ function StatementsPage() {
     return keys;
   }, []);
 
+  if (!account) {
+    return (
+      <div>
+        <PageHeader
+          title="Statements"
+          description="Download official monthly statements as PDF documents."
+        />
+        <Card>
+          <CardHeader>
+            <CardTitle>No accounts yet</CardTitle>
+            <CardDescription>
+              Statements appear here once an account is open on your profile.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
   const rowsFor = (key: string) =>
     state.txns
-      .filter((t) => t.accountId === accountId && monthKey(new Date(t.date)) === key)
+      .filter((t) => t.accountId === account.id && monthKey(new Date(t.date)) === key)
       .sort((a, b) => +new Date(a.date) - +new Date(b.date));
 
   const generate = async (key: string) => {
@@ -143,7 +162,7 @@ function StatementsPage() {
           <CardDescription>Statements are available for the last six months.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Select value={accountId} onValueChange={setAccountId}>
+          <Select value={account.id} onValueChange={setAccountId}>
             <SelectTrigger className="w-full sm:w-96">
               <SelectValue />
             </SelectTrigger>
