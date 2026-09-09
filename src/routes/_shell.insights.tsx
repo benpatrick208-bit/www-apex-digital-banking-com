@@ -262,7 +262,7 @@ function Factor({
       <span
         className={
           "font-medium " +
-          (tone === "good" ? "text-emerald-600 dark:text-emerald-400" : "text-gold-foreground")
+          (tone === "good" ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400")
         }
       >
         {value}
