@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, Loader2, MailCheck } from "lucide-react";
 import { ApexLogo } from "@/components/apex-logo";
+import { CardBrandMark } from "@/components/card-brand-mark";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
