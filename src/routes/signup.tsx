@@ -41,10 +41,12 @@ function SignupPage() {
     confirm: "",
     pin: "",
   });
+  const [brand, setBrand] = useState<"visa" | "mastercard">("visa");
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -58,16 +60,21 @@ function SignupPage() {
     if (!agree) return setError("Please accept the account agreement to continue.");
     setLoading(true);
     try {
-      await register({
+      const result = await register({
         fullName: form.fullName,
         username: form.username,
         email: form.email,
         phone: form.phone,
         password: form.password,
         pin: form.pin,
+        brand,
       });
-      setDone(true);
-      setTimeout(() => navigate({ to: "/dashboard", replace: true }), 1300);
+      if (result.needsConfirmation) {
+        setCheckEmail(true);
+      } else {
+        setDone(true);
+        setTimeout(() => navigate({ to: "/dashboard", replace: true }), 1300);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to create your account.");
     } finally {
@@ -89,7 +96,21 @@ function SignupPage() {
       </div>
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-10">
-        {done ? (
+        {checkEmail ? (
+          <div className="card-elevated flex flex-col items-center rounded-2xl border border-border bg-card p-10 text-center">
+            <MailCheck className="size-12 text-primary" />
+            <h1 className="mt-4 text-2xl font-semibold">Confirm your email</h1>
+            <p className="mt-2 max-w-md text-sm text-muted-foreground">
+              We sent a confirmation link to <span className="font-medium">{form.email}</span>.
+              Open it to activate your account — your Everyday Checking and High-Yield Savings
+              accounts and your {brand === "visa" ? "Visa" : "Mastercard"} card will be waiting the
+              first time you sign in.
+            </p>
+            <Button asChild className="mt-6">
+              <Link to="/">Go to sign in</Link>
+            </Button>
+          </div>
+        ) : done ? (
           <div className="card-elevated flex flex-col items-center rounded-2xl border border-border bg-card p-10 text-center">
             <CheckCircle2 className="size-12 text-success" />
             <h1 className="mt-4 text-2xl font-semibold">Your account is ready</h1>
