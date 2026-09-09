@@ -3,13 +3,19 @@ import {
   ArrowLeftRight,
   ArrowRight,
   BadgeCheck,
+  Building2,
+  Car,
+  CreditCard,
   FileText,
+  Home,
+  Landmark,
   LineChart,
   Lock,
+  LogIn,
   PiggyBank,
   ShieldCheck,
   Smartphone,
-  CreditCard,
+  TrendingUp,
   Wallet,
 } from "lucide-react";
 import { ApexLogo, ApexMark } from "@/components/apex-logo";
@@ -23,13 +29,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Bank with Apex Digital Bank: free checking, high-yield savings, instant transfers, mobile deposit and smart card controls. Open an account online in minutes.",
+          "Bank with Apex Digital Bank: checking, savings, credit cards, mortgages, auto loans, business banking and investing. Secure online banking sign-in. Open an account online in minutes.",
       },
       { property: "og:title", content: "Apex Digital Bank — Online & Mobile Banking" },
       {
         property: "og:description",
         content:
-          "Premium digital banking: checking, savings, transfers, deposits and card controls.",
+          "Checking, savings, credit cards, mortgages, auto loans, business banking and investing — all in one secure digital bank.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -38,17 +44,66 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const services = [
+const products = [
+  {
+    icon: LogIn,
+    title: "Online banking sign-in",
+    text: "Secure 24/7 access to your accounts, transfers, statements and card controls from any device.",
+    cta: "Sign in",
+    href: "/login",
+  },
   {
     icon: Wallet,
-    title: "Everyday checking",
-    text: "A full-featured checking account with no monthly maintenance fee, instant alerts and your account and routing numbers available the moment you're approved.",
+    title: "Checking accounts",
+    text: "No monthly maintenance fee, instant alerts, early direct deposit and your account and routing numbers the moment you're approved.",
+    cta: "Open checking",
+    href: "/signup",
   },
   {
     icon: PiggyBank,
-    title: "High-yield savings",
+    title: "Savings accounts",
     text: "Grow your money with a competitive variable APY, automatic savings goals and round-the-clock access from any device.",
+    cta: "Open savings",
+    href: "/signup",
   },
+  {
+    icon: CreditCard,
+    title: "Credit cards",
+    text: "Choose a Visa or Mastercard with no hidden fees, instant freeze controls and real-time purchase alerts.",
+    cta: "Explore cards",
+    href: "/signup",
+  },
+  {
+    icon: Home,
+    title: "Mortgages",
+    text: "Competitive home loan rates, fast pre-approval and a dedicated mortgage team to guide you from application to closing.",
+    cta: "Get pre-approved",
+    href: "/signup",
+  },
+  {
+    icon: Car,
+    title: "Auto loans",
+    text: "Flexible financing for new and used vehicles with quick decisions, transparent rates and no prepayment penalties.",
+    cta: "Apply now",
+    href: "/signup",
+  },
+  {
+    icon: Building2,
+    title: "Business banking",
+    text: "Business checking, employee cards, ACH payments and expense tools designed to keep your company moving.",
+    cta: "Open business account",
+    href: "/signup",
+  },
+  {
+    icon: TrendingUp,
+    title: "Investing",
+    text: "Self-directed investing and managed portfolios so you can build wealth alongside your everyday banking.",
+    cta: "Start investing",
+    href: "/signup",
+  },
+];
+
+const services = [
   {
     icon: ArrowLeftRight,
     title: "Transfers & payments",
@@ -58,11 +113,6 @@ const services = [
     icon: Smartphone,
     title: "Mobile deposit",
     text: "Snap a photo of a check and deposit it from anywhere. Funds availability is shown clearly before you confirm.",
-  },
-  {
-    icon: CreditCard,
-    title: "Virtual debit cards",
-    text: "Choose Visa or Mastercard, freeze and unfreeze instantly, and shop online the moment your account is open.",
   },
   {
     icon: LineChart,
@@ -95,6 +145,9 @@ function Header() {
             <ApexLogo className="text-navy-foreground" markClassName="h-8 w-8 text-gold" wordClassName="text-xl" />
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-medium text-navy-foreground/85 md:flex">
+            <a href="#products" className="transition-colors hover:text-navy-foreground">
+              Products
+            </a>
             <a href="#services" className="transition-colors hover:text-navy-foreground">
               Services
             </a>
@@ -137,11 +190,11 @@ function HomePage() {
                 <ShieldCheck className="size-3.5" /> Member FDIC · Equal Housing Lender
               </p>
               <h1 className="mt-5 text-4xl font-bold tracking-tight text-navy-foreground md:text-5xl lg:text-6xl">
-                Banking that reaches your apex
+                Banking, lending and investing — all in one place
               </h1>
               <p className="mt-4 max-w-lg text-base leading-relaxed text-navy-foreground/80 md:text-lg">
-                Checking, high-yield savings, instant transfers and smart card controls —
-                everything you expect from a modern bank, in one secure app.
+                Checking, savings, credit cards, mortgages, auto loans, business banking and investing.
+                Everything you need to manage, grow and protect your money.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="lg" className="h-12 bg-gold px-6 text-base text-gold-foreground hover:bg-gold/90">
@@ -155,7 +208,7 @@ function HomePage() {
                   variant="outline"
                   className="h-12 border-navy-foreground/30 bg-transparent px-6 text-base text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"
                 >
-                  <Link to="/login">Sign in</Link>
+                  <Link to="/login">Sign in to online banking</Link>
                 </Button>
               </div>
             </div>
@@ -190,32 +243,61 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Services */}
-        <section id="services" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-16 md:py-24">
+        {/* Products */}
+        <section id="products" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-16 md:py-24">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Our services</h2>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Banking products for every goal</h2>
             <p className="mt-3 text-muted-foreground md:text-lg">
-              Everything you need to spend, save and grow — built for phone, tablet and desktop.
+              From everyday banking to home loans, business accounts and investing — find the right fit and open online in minutes.
             </p>
           </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {products.map((p) => (
               <article
-                key={s.title}
-                className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-elevated)]"
+                key={p.title}
+                className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-elevated)]"
               >
                 <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <s.icon className="size-5.5" />
+                  <p.icon className="size-5.5" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
+                <h3 className="mt-4 text-lg font-semibold tracking-tight">{p.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{p.text}</p>
+                <Button asChild variant="link" className="mt-4 h-auto justify-start p-0 text-sm font-semibold text-primary">
+                  <Link to={p.href}>{p.cta} <ArrowRight className="ml-1 size-3.5" /></Link>
+                </Button>
               </article>
             ))}
           </div>
         </section>
 
+        {/* Services */}
+        <section id="services" className="scroll-mt-20 bg-secondary/60">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Our services</h2>
+              <p className="mt-3 text-muted-foreground md:text-lg">
+                Tools and features that make managing your money simple, secure and always within reach.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((s) => (
+                <article
+                  key={s.title}
+                  className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-elevated)]"
+                >
+                  <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <s.icon className="size-5.5" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold tracking-tight">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* How to open an account */}
-        <section id="open-account" className="scroll-mt-20 bg-secondary/60">
+        <section id="open-account" className="scroll-mt-20">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
