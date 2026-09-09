@@ -459,8 +459,7 @@ export function BankProvider({ children }: { children: ReactNode }) {
         const { error } = await supabase.auth.updateUser({
           password: next,
           current_password: current,
-        } as Parameters<typeof supabase.auth.updateUser>[0] & {
-        });
+        } as Parameters<typeof supabase.auth.updateUser>[0]);
         if (error) throw new Error(error.message);
         await notify(
           "Password changed",
