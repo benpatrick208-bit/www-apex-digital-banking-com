@@ -228,34 +228,6 @@ function SettingsPage() {
               <Separator />
 
               <div className="flex flex-wrap gap-2">
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline">
-                      <RotateCcw className="size-4" /> Reset demo data
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Reset demo data?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This restores the original accounts, transactions, recipients and goals.
-                        Any changes you made will be lost.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          resetDemo();
-                          toast.success("Demo data restored");
-                        }}
-                      >
-                        Reset
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-
                 <Button
                   variant="ghost"
                   onClick={() => {
