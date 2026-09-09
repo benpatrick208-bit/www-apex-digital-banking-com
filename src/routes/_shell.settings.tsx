@@ -48,7 +48,7 @@ export const Route = createFileRoute("/_shell/settings")({
 });
 
 function SettingsPage() {
-  const { state, updateProfile, changePassword, setDarkMode, resetDemo, signOut } = useBank();
+  const { state, updateProfile, changePassword, setDarkMode, signOut } = useBank();
   const navigate = useNavigate();
   const p = state.profile;
 
@@ -70,10 +70,14 @@ function SettingsPage() {
       return;
     }
     setSavingProfile(true);
-    await new Promise((r) => setTimeout(r, 600));
-    updateProfile(form);
-    setSavingProfile(false);
-    toast.success("Profile updated");
+    try {
+      await updateProfile(form);
+      toast.success("Profile updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't save your details.");
+    } finally {
+      setSavingProfile(false);
+    }
   };
 
   const savePassword = async (e: React.FormEvent) => {
