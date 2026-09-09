@@ -162,7 +162,7 @@ function StatementsPage() {
           <CardDescription>Statements are available for the last six months.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Select value={accountId} onValueChange={setAccountId}>
+          <Select value={account.id} onValueChange={setAccountId}>
             <SelectTrigger className="w-full sm:w-96">
               <SelectValue />
             </SelectTrigger>
