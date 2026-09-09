@@ -54,10 +54,10 @@ function monthLabel(key: string) {
 
 function StatementsPage() {
   const { state } = useBank();
-  const [accountId, setAccountId] = useState(state.accounts[0]!.id);
+  const [accountId, setAccountId] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
 
-  const account = state.accounts.find((a) => a.id === accountId)!;
+  const account = state.accounts.find((a) => a.id === accountId) ?? state.accounts[0];
 
   const periods = useMemo(() => {
     const keys: string[] = [];
