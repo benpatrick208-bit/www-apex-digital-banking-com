@@ -54,8 +54,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     .slice(0, 2)
     .join("");
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
     navigate({ to: "/", replace: true });
   };
 

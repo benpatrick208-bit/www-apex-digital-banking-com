@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Loader2, LogOut, Moon, RotateCcw, ShieldCheck } from "lucide-react";
+import { Loader2, LogOut, Moon, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
@@ -15,17 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useBank } from "@/lib/bank-store";
 
 export const Route = createFileRoute("/_shell/settings")({
@@ -48,7 +37,7 @@ export const Route = createFileRoute("/_shell/settings")({
 });
 
 function SettingsPage() {
-  const { state, updateProfile, changePassword, setDarkMode, resetDemo, signOut } = useBank();
+  const { state, updateProfile, changePassword, setDarkMode, signOut } = useBank();
   const navigate = useNavigate();
   const p = state.profile;
 
@@ -70,10 +59,14 @@ function SettingsPage() {
       return;
     }
     setSavingProfile(true);
-    await new Promise((r) => setTimeout(r, 600));
-    updateProfile(form);
-    setSavingProfile(false);
-    toast.success("Profile updated");
+    try {
+      await updateProfile(form);
+      toast.success("Profile updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't save your details.");
+    } finally {
+      setSavingProfile(false);
+    }
   };
 
   const savePassword = async (e: React.FormEvent) => {
@@ -224,38 +217,10 @@ function SettingsPage() {
               <Separator />
 
               <div className="flex flex-wrap gap-2">
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline">
-                      <RotateCcw className="size-4" /> Reset demo data
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Reset demo data?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This restores the original accounts, transactions, recipients and goals.
-                        Any changes you made will be lost.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          resetDemo();
-                          toast.success("Demo data restored");
-                        }}
-                      >
-                        Reset
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-
                 <Button
                   variant="ghost"
-                  onClick={() => {
-                    signOut();
+                  onClick={async () => {
+                    await signOut();
                     navigate({ to: "/", replace: true });
                   }}
                 >
