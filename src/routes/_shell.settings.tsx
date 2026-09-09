@@ -219,8 +219,8 @@ function SettingsPage() {
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="ghost"
-                  onClick={() => {
-                    signOut();
+                  onClick={async () => {
+                    await signOut();
                     navigate({ to: "/", replace: true });
                   }}
                 >
