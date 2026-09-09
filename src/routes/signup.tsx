@@ -160,6 +160,36 @@ function SignupPage() {
                 <Input type="password" value={form.confirm} onChange={set("confirm")} required />
               </Field>
 
+              <div className="space-y-2 sm:col-span-2">
+                <Label>Choose your debit card</Label>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {(["visa", "mastercard"] as const).map((b) => (
+                    <button
+                      key={b}
+                      type="button"
+                      onClick={() => setBrand(b)}
+                      aria-pressed={brand === b}
+                      className={`flex items-center justify-between rounded-xl border p-4 text-left transition ${
+                        brand === b
+                          ? "border-primary bg-primary/5 ring-2 ring-primary/30"
+                          : "border-border hover:bg-muted/60"
+                      }`}
+                    >
+                      <span>
+                        <span className="block text-sm font-medium">
+                          {b === "visa" ? "Visa" : "Mastercard"}
+                        </span>
+                        <span className="block text-xs text-muted-foreground">
+                          Virtual debit card, issued instantly
+                        </span>
+                      </span>
+                      <CardBrandMark brand={b} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+
               <label className="flex items-start gap-3 pt-1 text-sm sm:col-span-2">
                 <Checkbox
                   checked={agree}
