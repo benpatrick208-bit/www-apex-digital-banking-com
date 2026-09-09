@@ -56,7 +56,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate({ to: "/", replace: true });
+    navigate({ to: "/login", replace: true });
   };
 
   const NavList = ({ onNavigate }: { onNavigate?: () => void }) => (

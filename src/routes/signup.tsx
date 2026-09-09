@@ -90,7 +90,7 @@ function SignupPage() {
           <Link to="/">
             <ApexLogo className="text-navy-foreground" />
           </Link>
-          <Link to="/" className="text-sm font-medium text-navy-foreground/85 hover:underline">
+          <Link to="/login" className="text-sm font-medium text-navy-foreground/85 hover:underline">
             Sign in
           </Link>
         </div>
@@ -108,7 +108,7 @@ function SignupPage() {
               first time you sign in.
             </p>
             <Button asChild className="mt-6">
-              <Link to="/">Go to sign in</Link>
+              <Link to="/login">Go to sign in</Link>
             </Button>
           </div>
         ) : done ? (

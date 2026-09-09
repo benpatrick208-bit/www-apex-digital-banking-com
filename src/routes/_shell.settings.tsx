@@ -221,7 +221,7 @@ function SettingsPage() {
                   variant="ghost"
                   onClick={async () => {
                     await signOut();
-                    navigate({ to: "/", replace: true });
+                    navigate({ to: "/login", replace: true });
                   }}
                 >
                   <LogOut className="size-4" /> Sign out

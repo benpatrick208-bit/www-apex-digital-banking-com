@@ -14,7 +14,7 @@ function ShellLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ready && !signedIn) navigate({ to: "/", replace: true });
+    if (ready && !signedIn) navigate({ to: "/login", replace: true });
   }, [ready, signedIn, navigate]);
 
   if (!ready || !signedIn) {
