@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Copy, Eye, EyeOff, Snowflake, Wifi } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/app-shell";
+import { ApexLogo } from "@/components/apex-logo";
+import { CardBrandMark } from "@/components/card-brand-mark";
 import { PinDialog } from "@/components/pin-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -129,7 +131,9 @@ function CardsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Card details</CardTitle>
-              <CardDescription>Virtual debit card · Visa</CardDescription>
+              <CardDescription>
+                Virtual debit card · {card.brand === "mastercard" ? "Mastercard" : "Visa"}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <Row label="Status" value={card.frozen ? "Frozen" : "Active"} />
