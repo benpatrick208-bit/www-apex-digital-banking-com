@@ -172,7 +172,14 @@ export function BankProvider({ children }: { children: ReactNode }) {
         kind: n.kind as "money" | "security" | "offer",
       })),
       card: card
-        ? { number: card.number, cvv: card.cvv, expiry: card.expiry, frozen: card.frozen }
+        ? {
+            number: card.number,
+            cvv: card.cvv,
+            expiry: card.expiry,
+            frozen: card.frozen,
+            brand:
+              (card as { brand?: string }).brand === "mastercard" ? "mastercard" : "visa",
+          }
         : base.card,
       darkMode: profile.data?.dark_mode ?? false,
     });
