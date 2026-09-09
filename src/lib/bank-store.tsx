@@ -30,7 +30,8 @@ type Ctx = {
     phone: string;
     password: string;
     pin: string;
-  }) => Promise<void>;
+    brand: "visa" | "mastercard";
+  }) => Promise<{ needsConfirmation: boolean }>;
   verifyPin: (pin: string) => boolean;
   transfer: (input: {
     fromAccountId: string;
