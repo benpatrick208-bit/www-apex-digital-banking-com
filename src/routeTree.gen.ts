@@ -14,6 +14,9 @@ import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ShellAccountsRouteImport } from './routes/_shell.accounts'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellDepositRouteImport } from './routes/_shell.deposit'
+import { Route as ShellTransactionsRouteImport } from './routes/_shell.transactions'
+import { Route as ShellTransfersRouteImport } from './routes/_shell.transfers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +42,39 @@ const ShellDashboardRoute = ShellDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellDepositRoute = ShellDepositRouteImport.update({
+  id: '/deposit',
+  path: '/deposit',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTransactionsRoute = ShellTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTransfersRoute = ShellTransfersRouteImport.update({
+  id: '/transfers',
+  path: '/transfers',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/deposit': typeof ShellDepositRoute
+  '/transactions': typeof ShellTransactionsRoute
+  '/transfers': typeof ShellTransfersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/deposit': typeof ShellDepositRoute
+  '/transactions': typeof ShellTransactionsRoute
+  '/transfers': typeof ShellTransfersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +83,29 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_shell/accounts': typeof ShellAccountsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/deposit': typeof ShellDepositRoute
+  '/_shell/transactions': typeof ShellTransactionsRoute
+  '/_shell/transfers': typeof ShellTransfersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signup' | '/accounts' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/signup'
+    | '/accounts'
+    | '/dashboard'
+    | '/deposit'
+    | '/transactions'
+    | '/transfers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signup' | '/accounts' | '/dashboard'
+  to:
+    | '/'
+    | '/signup'
+    | '/accounts'
+    | '/dashboard'
+    | '/deposit'
+    | '/transactions'
+    | '/transfers'
   id:
     | '__root__'
     | '/'
@@ -72,6 +113,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_shell/accounts'
     | '/_shell/dashboard'
+    | '/_shell/deposit'
+    | '/_shell/transactions'
+    | '/_shell/transfers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,17 +161,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellDashboardRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/deposit': {
+      id: '/_shell/deposit'
+      path: '/deposit'
+      fullPath: '/deposit'
+      preLoaderRoute: typeof ShellDepositRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/transactions': {
+      id: '/_shell/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof ShellTransactionsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/transfers': {
+      id: '/_shell/transfers'
+      path: '/transfers'
+      fullPath: '/transfers'
+      preLoaderRoute: typeof ShellTransfersRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
 interface ShellRouteChildren {
   ShellAccountsRoute: typeof ShellAccountsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellDepositRoute: typeof ShellDepositRoute
+  ShellTransactionsRoute: typeof ShellTransactionsRoute
+  ShellTransfersRoute: typeof ShellTransfersRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAccountsRoute: ShellAccountsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellDepositRoute: ShellDepositRoute,
+  ShellTransactionsRoute: ShellTransactionsRoute,
+  ShellTransfersRoute: ShellTransfersRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
