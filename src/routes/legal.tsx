@@ -56,7 +56,7 @@ const sections = [
   {
     title: "Credit Score & Financial Insights",
     content: [
-      "Credit score information and financial insights provided in the application are for educational purposes only and may differ from the scores and metrics a lender or other third party uses.",
+      "Credit score information and financial insights provided in the application may differ from the scores and metrics a lender or other third party uses.",
       "Budgets, spending insights, savings goals, and projections are estimates and are not financial, tax, or investment advice.",
     ],
   },

@@ -56,8 +56,8 @@ export function SiteFooter({ tone = "light" }: { tone?: "light" | "navy" }) {
           </p>
           <p>
             Mobile deposit availability is subject to eligibility, deposit limits, and funds
-            availability policies. Message and data rates may apply. Credit score information is
-            provided for educational purposes only and may differ from the score a lender uses.
+            availability policies. Message and data rates may apply. Credit score information
+            provided may differ from the score a lender uses.
             Budgets, insights, and projections are estimates and are not financial advice.
           </p>
           <p>
