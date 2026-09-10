@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ApexMark } from "@/components/apex-logo";
 
 export function SiteFooter({ tone = "light" }: { tone?: "light" | "navy" }) {
@@ -21,16 +22,20 @@ export function SiteFooter({ tone = "light" }: { tone?: "light" | "navy" }) {
           </div>
           <nav className="grid grid-cols-2 gap-x-10 gap-y-2 text-sm sm:grid-cols-3">
             {[
-              "Privacy Notice",
-              "Online Security",
-              "Terms of Use",
-              "Accessibility",
-              "Fee Schedule",
-              "Contact Us",
+              { label: "Privacy Notice", to: "/legal" },
+              { label: "Online Security", to: "/legal" },
+              { label: "Terms of Use", to: "/legal" },
+              { label: "Accessibility", to: "/legal" },
+              { label: "Fee Schedule", to: "/legal" },
+              { label: "Contact Us", to: "/about" },
             ].map((item) => (
-              <span key={item} className="opacity-85 transition-opacity hover:opacity-100">
-                {item}
-              </span>
+              <Link
+                key={item.label}
+                to={item.to}
+                className="opacity-85 transition-opacity hover:opacity-100"
+              >
+                {item.label}
+              </Link>
             ))}
           </nav>
         </div>
