@@ -349,8 +349,8 @@ export function BankProvider({ children }: { children: ReactNode }) {
       },
 
       async depositCheck({ accountId, amount }) {
-        if (!(amount > 0)) throw new Error("Enter the check amount.");
-        if (amount > 10000) throw new Error("Mobile deposit limit is $10,000.00 per check.");
+        if (!(amount > 0)) throw new Error("Enter a deposit amount greater than $0.00.");
+        if (!Number.isFinite(amount)) throw new Error("Enter a valid deposit amount.");
         await adjust(accountId, amount);
         await supabase.from("transactions").insert({
           user_id: uid(),

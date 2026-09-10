@@ -48,15 +48,11 @@ function DepositPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!front || !back) {
-      setError("Capture both the front and the back of the check.");
-      return;
-    }
     setPending(true);
     try {
       await depositCheck({ accountId, amount: Number(amount) });
       setDone(true);
-      toast.success("Deposit submitted");
+      toast.success(`${money(Number(amount))} deposited`);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Deposit failed.";
       setError(msg);
@@ -75,10 +71,9 @@ function DepositPage() {
             <span className="mx-auto mb-4 inline-flex size-14 items-center justify-center rounded-full bg-success/10 text-success">
               <CheckCircle2 className="size-7" />
             </span>
-            <h2 className="text-xl font-semibold">Deposit submitted</h2>
+            <h2 className="text-xl font-semibold">Deposit complete</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              {money(Number(amount))} is pending. Funds are typically available the next business
-              day.
+              {money(Number(amount))} has been added to your balance and is available now.
             </p>
             <Button
               className="mt-6"
@@ -144,7 +139,9 @@ function DepositPage() {
                   className="pl-7 text-lg"
                 />
               </div>
-              <p className="text-xs text-muted-foreground">Limit $10,000.00 per check.</p>
+              <p className="text-xs text-muted-foreground">
+                No deposit limit — funds are added to your balance instantly.
+              </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
