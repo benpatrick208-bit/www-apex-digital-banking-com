@@ -10,9 +10,24 @@ export function CardBrandMark({
 }) {
   if (brand === "mastercard") {
     return (
-      <svg viewBox="0 0 48 30" aria-label="Mastercard" className={cn("h-7 w-11", className)}>
-        <circle cx="19" cy="15" r="11" fill="#EB001B" />
-        <circle cx="29" cy="15" r="11" fill="#F79E1B" opacity="0.9" />
+      <svg viewBox="0 0 48 38" aria-label="Mastercard" className={cn("h-9 w-14", className)}>
+        <circle cx="19" cy="14" r="12" fill="#EB001B" />
+        <circle cx="29" cy="14" r="12" fill="#F79E1B" />
+        <path
+          d="M24 4.2a12 12 0 0 0 0 19.6A12 12 0 0 0 24 4.2Z"
+          fill="#FF5F00"
+        />
+        <text
+          x="24"
+          y="35"
+          textAnchor="middle"
+          fontFamily="Helvetica, Arial, sans-serif"
+          fontSize="8"
+          fontWeight="500"
+          fill="currentColor"
+        >
+          mastercard
+        </text>
       </svg>
     );
   }
