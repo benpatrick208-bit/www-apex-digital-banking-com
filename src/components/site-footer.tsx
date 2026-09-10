@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ApexMark } from "@/components/apex-logo";
 
 export function SiteFooter({ tone = "light" }: { tone?: "light" | "navy" }) {

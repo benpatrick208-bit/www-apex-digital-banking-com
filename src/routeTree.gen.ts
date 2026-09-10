@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ShellAccountsRouteImport } from './routes/_shell.accounts'
@@ -38,6 +39,11 @@ const ShellRoute = ShellRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -109,6 +115,7 @@ const ShellTransfersRoute = ShellTransfersRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/accounts': typeof ShellAccountsRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
   '/about': typeof AboutRoute
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_shell/accounts': typeof ShellAccountsRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/legal'
     | '/login'
     | '/signup'
     | '/accounts'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/legal'
     | '/login'
     | '/signup'
     | '/accounts'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_shell'
     | '/about'
+    | '/legal'
     | '/login'
     | '/signup'
     | '/_shell/accounts'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ShellRoute: typeof ShellRouteWithChildren
   AboutRoute: typeof AboutRoute
+  LegalRoute: typeof LegalRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
 }
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -373,6 +393,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ShellRoute: ShellRouteWithChildren,
   AboutRoute: AboutRoute,
+  LegalRoute: LegalRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
 }
