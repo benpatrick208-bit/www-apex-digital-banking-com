@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Context,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -65,7 +66,11 @@ type Ctx = {
   refresh: () => Promise<void>;
 };
 
-const BankContext = createContext<Ctx | null>(null);
+// Kept on globalThis so hot-reloads reuse the same context instance
+// (a fresh context would make useBank see no provider and blank the page).
+const g = globalThis as unknown as { __apexBankContext?: Context<Ctx | null> };
+const BankContext = g.__apexBankContext ?? createContext<Ctx | null>(null);
+g.__apexBankContext = BankContext;
 
 const num = (v: unknown) => Number(v ?? 0);
 
