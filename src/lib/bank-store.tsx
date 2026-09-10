@@ -68,7 +68,7 @@ type Ctx = {
 
 // Kept on globalThis so hot-reloads reuse the same context instance
 // (a fresh context would make useBank see no provider and blank the page).
-const g = globalThis as unknown as { __apexBankContext?: React.Context<Ctx | null> };
+const g = globalThis as unknown as { __apexBankContext?: Context<Ctx | null> };
 const BankContext = g.__apexBankContext ?? createContext<Ctx | null>(null);
 g.__apexBankContext = BankContext;
 
