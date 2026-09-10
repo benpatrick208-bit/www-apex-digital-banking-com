@@ -61,6 +61,7 @@ type Ctx = {
   readAllNotifications: () => Promise<void>;
   updateProfile: (p: Partial<Profile>) => Promise<void>;
   changePassword: (current: string, next: string) => Promise<void>;
+  changePin: (currentPin: string, nextPin: string) => Promise<void>;
   toggleFreeze: () => Promise<void>;
   setDarkMode: (on: boolean) => Promise<void>;
   refresh: () => Promise<void>;
@@ -483,6 +484,26 @@ export function BankProvider({ children }: { children: ReactNode }) {
           })
           .eq("id", uid());
         if (error) throw new Error(error.message);
+        await load();
+      },
+
+      async changePin(currentPin, nextPin) {
+        if (currentPin !== state.profile.pin)
+          throw new Error("Your current PIN is incorrect.");
+        if (!/^\d{4}$/.test(nextPin))
+          throw new Error("Your new PIN must be 4 digits.");
+        if (nextPin === currentPin)
+          throw new Error("Choose a PIN different from your current one.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ pin: nextPin })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          "Transaction PIN changed",
+          "Your Apex Digital Bank transaction PIN was updated.",
+          "security",
+        );
         await load();
       },
 
