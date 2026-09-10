@@ -64,42 +64,74 @@ function CardsPage() {
         <div className="space-y-4">
           <div
             className={
-              "relative aspect-[1.586/1] w-full overflow-hidden rounded-2xl bg-primary p-6 text-primary-foreground shadow-xl transition-opacity " +
+              "relative aspect-[1.586/1] w-full overflow-hidden rounded-[1.25rem] p-5 text-white shadow-2xl transition-opacity md:p-6 " +
               (card.frozen ? "opacity-60" : "")
             }
+            style={{
+              background:
+                "linear-gradient(135deg, #0b1f45 0%, #10305f 45%, #0a1a38 100%)",
+            }}
           >
-            <div className="absolute -right-16 -top-16 size-56 rounded-full bg-gold/20" />
-            <div className="absolute -bottom-20 -left-10 size-52 rounded-full bg-white/5" />
+            {/* Bold apex chevron imprint */}
+            <svg
+              viewBox="0 0 200 126"
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              preserveAspectRatio="none"
+            >
+              <path d="M150 6 L200 126 L150 126 L118 46 L86 126 L40 126 Z" fill="#1b58b8" opacity="0.55" />
+              <path d="M150 44 L200 126 L166 126 L148 82 L128 126 L96 126 Z" fill="#0a1e42" opacity="0.85" />
+            </svg>
+
             <div className="relative flex h-full flex-col justify-between">
               <div className="flex items-start justify-between">
                 <ApexLogo
-                  markClassName="h-8 w-8 md:h-9 md:w-9"
+                  markClassName="h-9 w-9 text-white md:h-10 md:w-10"
                   wordClassName="text-2xl font-bold tracking-tight md:text-3xl"
                 />
-                <Wifi className="size-5 rotate-90 opacity-80" />
+                <div className="flex flex-col items-end gap-2">
+                  <span className="text-[0.6rem] font-semibold uppercase tracking-[0.35em]">
+                    Debit
+                  </span>
+                  <Wifi className="size-5 rotate-90 opacity-90" />
+                </div>
               </div>
+
               <div>
-                <div className="mb-4 h-8 w-11 rounded-md bg-gold/80" />
-                <p className="font-mono text-lg tracking-[0.18em] md:text-xl">
+                <div
+                  className="mb-3 h-8 w-11 rounded-md border border-amber-200/50 md:h-9 md:w-12"
+                  style={{
+                    background:
+                      "linear-gradient(140deg, #f2d492 0%, #d3ab55 50%, #b8912f 100%)",
+                  }}
+                />
+                <p className="font-mono text-lg font-semibold tracking-[0.14em] drop-shadow md:text-2xl">
                   {revealed ? card.number : masked}
                 </p>
+                <div className="mt-2 flex items-center gap-2 text-[0.6rem] uppercase tracking-widest opacity-80">
+                  <span className="leading-tight">
+                    Valid
+                    <br />
+                    Thru
+                  </span>
+                  <span className="font-mono text-sm tracking-normal opacity-100">
+                    {card.expiry}
+                  </span>
+                  <span className="ml-3">CVV</span>
+                  <span className="font-mono text-sm tracking-normal opacity-100">
+                    {revealed ? card.cvv : "•••"}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-end justify-between gap-3 text-xs">
-                <div>
-                  <p className="opacity-70">Card holder</p>
-                  <p className="text-sm font-medium uppercase">{state.profile.fullName}</p>
-                </div>
-                <div className="text-right">
-                  <p className="opacity-70">Expires</p>
-                  <p className="text-sm font-medium">{card.expiry}</p>
-                </div>
-                <div className="text-right">
-                  <p className="opacity-70">CVV</p>
-                  <p className="text-sm font-medium">{revealed ? card.cvv : "•••"}</p>
-                </div>
-                <CardBrandMark brand={card.brand} className="h-7 w-11 shrink-0" />
+
+              <div className="flex items-end justify-between gap-3">
+                <p className="text-sm font-medium uppercase tracking-[0.12em] md:text-base">
+                  {state.profile.fullName}
+                </p>
+                <CardBrandMark brand={card.brand} className="h-9 w-14 shrink-0" />
               </div>
             </div>
+
             {card.frozen ? (
               <div className="absolute inset-0 grid place-items-center bg-background/40 backdrop-blur-[2px]">
                 <Badge className="gap-1 bg-background text-foreground">
