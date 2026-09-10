@@ -487,6 +487,26 @@ export function BankProvider({ children }: { children: ReactNode }) {
         await load();
       },
 
+      async changePin(currentPin, nextPin) {
+        if (currentPin !== state.profile.pin)
+          throw new Error("Your current PIN is incorrect.");
+        if (!/^\d{4}$/.test(nextPin))
+          throw new Error("Your new PIN must be 4 digits.");
+        if (nextPin === currentPin)
+          throw new Error("Choose a PIN different from your current one.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ pin: nextPin })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          "Transaction PIN changed",
+          "Your Apex Digital Bank transaction PIN was updated.",
+          "security",
+        );
+        await load();
+      },
+
       async changePassword(current, next) {
         if (next.length < 8) throw new Error("Use at least 8 characters.");
         const { error } = await supabase.auth.updateUser({
