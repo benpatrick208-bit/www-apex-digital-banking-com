@@ -61,6 +61,7 @@ type Ctx = {
   readAllNotifications: () => Promise<void>;
   updateProfile: (p: Partial<Profile>) => Promise<void>;
   changePassword: (current: string, next: string) => Promise<void>;
+  changePin: (currentPin: string, nextPin: string) => Promise<void>;
   toggleFreeze: () => Promise<void>;
   setDarkMode: (on: boolean) => Promise<void>;
   refresh: () => Promise<void>;
