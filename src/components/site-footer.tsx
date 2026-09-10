@@ -61,9 +61,8 @@ export function SiteFooter({ tone = "light" }: { tone?: "light" | "navy" }) {
             Budgets, insights, and projections are estimates and are not financial advice.
           </p>
           <p>
-            This experience uses simulated demonstration data. No real accounts, balances,
-            transfers, or funds are involved. Never share your password, PIN, or one-time codes —
-            Apex Digital Bank will never ask for them by phone, text, or email.
+            Never share your password, PIN, or one-time codes — Apex Digital Bank will never ask
+            for them by phone, text, or email.
           </p>
           <p className="pt-1">
             © {year} Apex Digital Bank, N.A. All rights reserved. NMLS ID #402118.
