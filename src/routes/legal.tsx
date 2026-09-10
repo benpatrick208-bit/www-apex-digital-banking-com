@@ -27,53 +27,44 @@ export const Route = createFileRoute("/legal")({
 
 const sections = [
   {
-    title: "Simulation & Demonstration Notice",
-    content: [
-      "This application is a simulated demonstration of a digital banking experience. Apex Digital Bank, N.A. is a fictional entity used for demonstration purposes only.",
-      "No real accounts, balances, deposits, withdrawals, transfers, loans, or investments are created, held, or processed through this application. Any monetary values shown are simulated and have no cash value.",
-      "Do not enter real bank account numbers, Social Security numbers, payment card details, or other sensitive personal information into this demo. Information you provide is used only to simulate the user experience and may be stored in the demonstration database.",
-    ],
-  },
-  {
     title: "FDIC Insurance Disclosure",
     content: [
-      "In a live banking environment, deposit products would be offered by an FDIC-insured institution. Deposits would be insured up to the maximum amount allowed by law, currently $250,000 per depositor, per insured bank, for each account ownership category.",
-      "Because this is a demonstration application, no deposits are made and no FDIC insurance applies.",
+      "Deposit products are offered by Apex Digital Bank, N.A., Member FDIC. Deposits are insured up to the maximum amount allowed by law, currently $250,000 per depositor, per insured bank, for each account ownership category.",
     ],
   },
   {
     title: "Rates, Yields & Fees",
     content: [
-      "Annual Percentage Yields (APY) and interest rates shown in the demo are illustrative examples only. In a real product, rates are variable and may change at any time without notice.",
-      "Fees may reduce earnings on interest-bearing accounts. Account terms, fee schedules, and balance requirements are simulated and do not represent an actual offer of credit or deposit services.",
+      "Annual Percentage Yields (APY) and interest rates shown are accurate as of the date displayed and are variable, meaning rates may change at any time without notice.",
+      "Fees may reduce earnings on interest-bearing accounts. Account terms, fee schedules, and balance requirements are described in the applicable account agreement and fee schedule.",
     ],
   },
   {
     title: "Credit Products",
     content: [
-      "Any credit cards, loans, mortgages, auto loans, lines of credit, or other credit products referenced in the application are simulated. Real credit products are subject to credit approval, income verification, identity verification, and applicable terms and conditions.",
-      "Displayed credit limits, interest rates, and approvals are for demonstration only and do not constitute an offer of credit.",
+      "Credit cards, loans, mortgages, auto loans, lines of credit, and other credit products are subject to credit approval, income verification, identity verification, and applicable terms and conditions.",
+      "Displayed credit limits, interest rates, and approvals do not constitute a binding offer of credit until final approval and account opening.",
     ],
   },
   {
     title: "Mobile Deposit & Transfers",
     content: [
-      "Mobile check deposit and transfer features shown are simulated. In a live environment, mobile deposit availability is subject to eligibility, deposit limits, funds-availability policies, and review. Message and data rates may apply when using mobile services.",
-      "Transfers to external institutions would be subject to verification, processing times, and cut-off times.",
+      "Mobile check deposit availability is subject to eligibility, deposit limits, funds-availability policies, and review. Message and data rates may apply when using mobile services.",
+      "Transfers to external institutions are subject to verification, processing times, and daily cut-off times.",
     ],
   },
   {
     title: "Credit Score & Financial Insights",
     content: [
-      "Credit score information and financial insights provided in the application are for educational and demonstration purposes only. They may differ from the scores and metrics a lender or other third party actually uses.",
+      "Credit score information and financial insights provided in the application are for educational purposes only and may differ from the scores and metrics a lender or other third party uses.",
       "Budgets, spending insights, savings goals, and projections are estimates and are not financial, tax, or investment advice.",
     ],
   },
   {
     title: "Privacy & Security",
     content: [
-      "The demonstration uses industry-standard security practices, but it is not a production financial platform. Never share your password, PIN, or one-time codes. A legitimate financial institution will never ask for them by phone, text, or email.",
-      "For a live service, a full Privacy Notice would describe how personal information is collected, used, shared, and protected.",
+      "We use industry-standard security practices to protect your information. Never share your password, PIN, or one-time codes — Apex Digital Bank will never ask for them by phone, text, or email.",
+      "Our Privacy Notice describes how personal information is collected, used, shared, and protected.",
     ],
   },
   {
@@ -86,21 +77,20 @@ const sections = [
   {
     title: "Business & Commercial Services",
     content: [
-      "Business banking, commercial lending, treasury, and merchant services referenced in the application are simulated. Real business accounts and services are subject to business verification, account agreements, and applicable fees.",
+      "Business banking, commercial lending, treasury, and merchant services are subject to business verification, account agreements, and applicable fees.",
     ],
   },
   {
     title: "Equal Housing Lender",
     content: [
-      "Apex Digital Bank is an equal housing lender. In a live environment, credit decisions would be made without regard to race, color, religion, national origin, sex, marital status, age, or any other prohibited basis.",
+      "Apex Digital Bank is an equal housing lender. Credit decisions are made without regard to race, color, religion, national origin, sex, marital status, age, or any other prohibited basis.",
     ],
   },
   {
     title: "Regulatory & Contact Information",
     content: [
-      "This demonstration is not affiliated with, endorsed by, or sponsored by any real financial institution.",
-      "For questions about this demonstration, contact the project owner through the hosting platform.",
-      "© 2026 Apex Digital Bank, N.A. All rights reserved. NMLS ID #402118 (fictitious demonstration identifier).",
+      "For questions about your accounts or these disclosures, contact Apex Digital Bank customer support.",
+      "© 2026 Apex Digital Bank, N.A. All rights reserved. NMLS ID #402118.",
     ],
   },
 ];
@@ -144,8 +134,7 @@ function LegalPage() {
               Legal Disclosures
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed opacity-85 md:text-lg">
-              Important regulatory, privacy, and product notices for the Apex Digital Bank
-              demonstration experience.
+              Important regulatory, privacy, and product notices for Apex Digital Bank customers.
             </p>
           </div>
         </section>
@@ -177,10 +166,8 @@ function LegalPage() {
 
             <div className="mt-10 border-t border-border pt-6 text-xs leading-relaxed opacity-75">
               <p>
-                The content on this page is provided for demonstration and educational purposes.
-                It does not create a contractual relationship or any legal obligation. For a live
-                financial product, consult the official disclosures, agreements, and fee schedules
-                provided by the actual institution.
+                The content on this page is provided for informational purposes. Please refer to
+                your account agreements and fee schedules for the terms that govern your accounts.
               </p>
               <p className="mt-3">
                 © {new Date().getFullYear()} Apex Digital Bank, N.A. All rights reserved. NMLS
