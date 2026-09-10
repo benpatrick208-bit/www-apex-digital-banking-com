@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Context,
 } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
