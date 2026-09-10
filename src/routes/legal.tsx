@@ -134,8 +134,7 @@ function LegalPage() {
               Legal Disclosures
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed opacity-85 md:text-lg">
-              Important regulatory, privacy, and product notices for the Apex Digital Bank
-              demonstration experience.
+              Important regulatory, privacy, and product notices for Apex Digital Bank customers.
             </p>
           </div>
         </section>
@@ -167,10 +166,8 @@ function LegalPage() {
 
             <div className="mt-10 border-t border-border pt-6 text-xs leading-relaxed opacity-75">
               <p>
-                The content on this page is provided for demonstration and educational purposes.
-                It does not create a contractual relationship or any legal obligation. For a live
-                financial product, consult the official disclosures, agreements, and fee schedules
-                provided by the actual institution.
+                The content on this page is provided for informational purposes. Please refer to
+                your account agreements and fee schedules for the terms that govern your accounts.
               </p>
               <p className="mt-3">
                 © {new Date().getFullYear()} Apex Digital Bank, N.A. All rights reserved. NMLS
