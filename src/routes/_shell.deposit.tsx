@@ -48,10 +48,6 @@ function DepositPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!front || !back) {
-      setError("Capture both the front and the back of the check.");
-      return;
-    }
     setPending(true);
     try {
       await depositCheck({ accountId, amount: Number(amount) });
