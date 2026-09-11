@@ -37,7 +37,16 @@ export const Route = createFileRoute("/_shell/settings")({
 });
 
 function SettingsPage() {
-  const { state, updateProfile, changePassword, changePin, setDarkMode, signOut } = useBank();
+  const {
+    state,
+    updateProfile,
+    changePassword,
+    changePin,
+    setAccountLocked,
+    changeSecurityPin,
+    setDarkMode,
+    signOut,
+  } = useBank();
   const navigate = useNavigate();
   const p = state.profile;
 
