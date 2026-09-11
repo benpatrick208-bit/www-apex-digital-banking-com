@@ -62,6 +62,8 @@ type Ctx = {
   updateProfile: (p: Partial<Profile>) => Promise<void>;
   changePassword: (current: string, next: string) => Promise<void>;
   changePin: (currentPin: string, nextPin: string) => Promise<void>;
+  setAccountLocked: (locked: boolean, securityPin: string) => Promise<void>;
+  changeSecurityPin: (currentPin: string, nextPin: string) => Promise<void>;
   toggleFreeze: () => Promise<void>;
   setDarkMode: (on: boolean) => Promise<void>;
   refresh: () => Promise<void>;
@@ -135,6 +137,8 @@ export function BankProvider({ children }: { children: ReactNode }) {
         memberSince: profile.data?.member_since ?? "",
         creditScore: profile.data?.credit_score ?? 650,
         pin: profile.data?.pin ?? "0000",
+        securityPin: profile.data?.security_pin ?? "0000",
+        accountLocked: profile.data?.account_locked ?? false,
       },
       accounts: (accounts.data ?? []).map((a) => ({
         id: a.id,
@@ -315,6 +319,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
       verifyPin: (pin) => pin === state.profile.pin,
 
       async transfer({ fromAccountId, toAccountId, recipientId, amount, memo }) {
+        if (state.profile.accountLocked)
+          throw new Error(
+            "Your account is frozen. Unlock it in Profile & settings with your security PIN.",
+          );
         const from = state.accounts.find((a) => a.id === fromAccountId);
         if (!from) throw new Error("Select an account to transfer from.");
         if (!(amount > 0)) throw new Error("Enter an amount greater than $0.00.");
@@ -355,6 +363,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
       },
 
       async depositCheck({ accountId, amount }) {
+        if (state.profile.accountLocked)
+          throw new Error(
+            "Your account is frozen. Unlock it in Profile & settings with your security PIN.",
+          );
         if (!(amount > 0)) throw new Error("Enter a deposit amount greater than $0.00.");
         if (!Number.isFinite(amount)) throw new Error("Enter a valid deposit amount.");
         await adjust(accountId, amount);
@@ -502,6 +514,46 @@ export function BankProvider({ children }: { children: ReactNode }) {
         await notify(
           "Transaction PIN changed",
           "Your Apex Digital Bank transaction PIN was updated.",
+          "security",
+        );
+        await load();
+      },
+
+      async setAccountLocked(locked, securityPin) {
+        if (securityPin !== state.profile.securityPin)
+          throw new Error("Your security PIN is incorrect.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ account_locked: locked })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          locked ? "Account frozen" : "Account unfrozen",
+          locked
+            ? "Transfers and deposits are now blocked on your account."
+            : "Transfers and deposits are available again.",
+          "security",
+        );
+        await load();
+      },
+
+      async changeSecurityPin(currentPin, nextPin) {
+        if (currentPin !== state.profile.securityPin)
+          throw new Error("Your current security PIN is incorrect.");
+        if (!/^\d{4}$/.test(nextPin))
+          throw new Error("Your new security PIN must be 4 digits.");
+        if (nextPin === currentPin)
+          throw new Error("Choose a security PIN different from your current one.");
+        if (nextPin === state.profile.pin)
+          throw new Error("Your security PIN must differ from your transaction PIN.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ security_pin: nextPin })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          "Security PIN changed",
+          "The PIN that freezes and unfreezes your account was updated.",
           "security",
         );
         await load();

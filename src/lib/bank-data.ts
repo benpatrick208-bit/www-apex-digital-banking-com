@@ -69,6 +69,8 @@ export type Profile = {
   memberSince: string;
   creditScore: number;
   pin: string;
+  securityPin: string;
+  accountLocked: boolean;
 };
 
 export type BankState = {
@@ -103,6 +105,8 @@ export function emptyState(): BankState {
       memberSince: "",
       creditScore: 650,
       pin: "0000",
+      securityPin: "0000",
+      accountLocked: false,
     },
     accounts: [],
     txns: [],
