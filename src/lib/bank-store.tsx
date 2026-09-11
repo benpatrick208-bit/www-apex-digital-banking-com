@@ -363,6 +363,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
       },
 
       async depositCheck({ accountId, amount }) {
+        if (state.profile.accountLocked)
+          throw new Error(
+            "Your account is frozen. Unlock it in Profile & settings with your security PIN.",
+          );
         if (!(amount > 0)) throw new Error("Enter a deposit amount greater than $0.00.");
         if (!Number.isFinite(amount)) throw new Error("Enter a valid deposit amount.");
         await adjust(accountId, amount);
