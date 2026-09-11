@@ -319,6 +319,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
       verifyPin: (pin) => pin === state.profile.pin,
 
       async transfer({ fromAccountId, toAccountId, recipientId, amount, memo }) {
+        if (state.profile.accountLocked)
+          throw new Error(
+            "Your account is frozen. Unlock it in Profile & settings with your security PIN.",
+          );
         const from = state.accounts.find((a) => a.id === fromAccountId);
         if (!from) throw new Error("Select an account to transfer from.");
         if (!(amount > 0)) throw new Error("Enter an amount greater than $0.00.");
