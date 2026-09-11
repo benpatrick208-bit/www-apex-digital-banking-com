@@ -137,6 +137,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
         memberSince: profile.data?.member_since ?? "",
         creditScore: profile.data?.credit_score ?? 650,
         pin: profile.data?.pin ?? "0000",
+        securityPin:
+          (profile.data as { security_pin?: string } | null)?.security_pin ?? "0000",
+        accountLocked:
+          (profile.data as { account_locked?: boolean } | null)?.account_locked ?? false,
       },
       accounts: (accounts.data ?? []).map((a) => ({
         id: a.id,
