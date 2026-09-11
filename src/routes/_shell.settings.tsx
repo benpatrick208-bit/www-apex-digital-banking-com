@@ -90,6 +90,24 @@ function SettingsPage() {
     }
   };
 
+  const savePin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pin.next !== pin.confirm) {
+      toast.error("The new PINs don't match.");
+      return;
+    }
+    setSavingPin(true);
+    try {
+      await changePin(pin.current, pin.next);
+      setPin({ current: "", next: "", confirm: "" });
+      toast.success("Transaction PIN changed");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't change PIN.");
+    } finally {
+      setSavingPin(false);
+    }
+  };
+
   return (
     <div>
       <PageHeader
