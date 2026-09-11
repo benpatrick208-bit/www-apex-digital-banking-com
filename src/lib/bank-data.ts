@@ -69,6 +69,8 @@ export type Profile = {
   memberSince: string;
   creditScore: number;
   pin: string;
+  securityPin: string;
+  accountLocked: boolean;
 };
 
 export type BankState = {
