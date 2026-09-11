@@ -209,6 +209,57 @@ function SettingsPage() {
                   Update password
                 </Button>
               </form>
+
+              <Separator className="my-6" />
+
+              <form className="space-y-4" onSubmit={savePin}>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-medium">Transaction PIN</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Change the 4-digit PIN used to authorize transfers and deposits.
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinCurrent">Current PIN</Label>
+                  <Input
+                    id="pinCurrent"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.current}
+                    onChange={(e) => setPin({ ...pin, current: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinNext">New PIN</Label>
+                  <Input
+                    id="pinNext"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.next}
+                    onChange={(e) => setPin({ ...pin, next: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinConfirm">Confirm new PIN</Label>
+                  <Input
+                    id="pinConfirm"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.confirm}
+                    onChange={(e) => setPin({ ...pin, confirm: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" disabled={savingPin}>
+                  {savingPin ? <Loader2 className="size-4 animate-spin" /> : null}
+                  Change PIN
+                </Button>
+              </form>
             </CardContent>
           </Card>
 
