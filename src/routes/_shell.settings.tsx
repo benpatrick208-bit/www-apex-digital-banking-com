@@ -37,7 +37,7 @@ export const Route = createFileRoute("/_shell/settings")({
 });
 
 function SettingsPage() {
-  const { state, updateProfile, changePassword, setDarkMode, signOut } = useBank();
+  const { state, updateProfile, changePassword, changePin, setDarkMode, signOut } = useBank();
   const navigate = useNavigate();
   const p = state.profile;
 
@@ -51,6 +51,9 @@ function SettingsPage() {
 
   const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [savingPw, setSavingPw] = useState(false);
+
+  const [pin, setPin] = useState({ current: "", next: "", confirm: "" });
+  const [savingPin, setSavingPin] = useState(false);
 
   const saveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +87,24 @@ function SettingsPage() {
       toast.error(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setSavingPw(false);
+    }
+  };
+
+  const savePin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pin.next !== pin.confirm) {
+      toast.error("The new PINs don't match.");
+      return;
+    }
+    setSavingPin(true);
+    try {
+      await changePin(pin.current, pin.next);
+      setPin({ current: "", next: "", confirm: "" });
+      toast.success("Transaction PIN changed");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't change PIN.");
+    } finally {
+      setSavingPin(false);
     }
   };
 
@@ -186,6 +207,57 @@ function SettingsPage() {
                 <Button type="submit" disabled={savingPw}>
                   {savingPw ? <Loader2 className="size-4 animate-spin" /> : null}
                   Update password
+                </Button>
+              </form>
+
+              <Separator className="my-6" />
+
+              <form className="space-y-4" onSubmit={savePin}>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-medium">Transaction PIN</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Change the 4-digit PIN used to authorize transfers and deposits.
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinCurrent">Current PIN</Label>
+                  <Input
+                    id="pinCurrent"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.current}
+                    onChange={(e) => setPin({ ...pin, current: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinNext">New PIN</Label>
+                  <Input
+                    id="pinNext"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.next}
+                    onChange={(e) => setPin({ ...pin, next: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pinConfirm">Confirm new PIN</Label>
+                  <Input
+                    id="pinConfirm"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={pin.confirm}
+                    onChange={(e) => setPin({ ...pin, confirm: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" disabled={savingPin}>
+                  {savingPin ? <Loader2 className="size-4 animate-spin" /> : null}
+                  Change PIN
                 </Button>
               </form>
             </CardContent>
