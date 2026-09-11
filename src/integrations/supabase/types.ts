@@ -169,6 +169,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          account_locked: boolean
           address: string
           created_at: string
           credit_score: number
@@ -179,9 +180,11 @@ export type Database = {
           member_since: string
           phone: string
           pin: string
+          security_pin: string
           username: string
         }
         Insert: {
+          account_locked?: boolean
           address?: string
           created_at?: string
           credit_score?: number
@@ -192,9 +195,11 @@ export type Database = {
           member_since?: string
           phone?: string
           pin?: string
+          security_pin?: string
           username?: string
         }
         Update: {
+          account_locked?: boolean
           address?: string
           created_at?: string
           credit_score?: number
@@ -205,6 +210,7 @@ export type Database = {
           member_since?: string
           phone?: string
           pin?: string
+          security_pin?: string
           username?: string
         }
         Relationships: []
