@@ -519,6 +519,46 @@ export function BankProvider({ children }: { children: ReactNode }) {
         await load();
       },
 
+      async setAccountLocked(locked, securityPin) {
+        if (securityPin !== state.profile.securityPin)
+          throw new Error("Your security PIN is incorrect.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ account_locked: locked })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          locked ? "Account frozen" : "Account unfrozen",
+          locked
+            ? "Transfers and deposits are now blocked on your account."
+            : "Transfers and deposits are available again.",
+          "security",
+        );
+        await load();
+      },
+
+      async changeSecurityPin(currentPin, nextPin) {
+        if (currentPin !== state.profile.securityPin)
+          throw new Error("Your current security PIN is incorrect.");
+        if (!/^\d{4}$/.test(nextPin))
+          throw new Error("Your new security PIN must be 4 digits.");
+        if (nextPin === currentPin)
+          throw new Error("Choose a security PIN different from your current one.");
+        if (nextPin === state.profile.pin)
+          throw new Error("Your security PIN must differ from your transaction PIN.");
+        const { error } = await supabase
+          .from("profiles")
+          .update({ security_pin: nextPin })
+          .eq("id", uid());
+        if (error) throw new Error(error.message);
+        await notify(
+          "Security PIN changed",
+          "The PIN that freezes and unfreezes your account was updated.",
+          "security",
+        );
+        await load();
+      },
+
       async changePassword(current, next) {
         if (next.length < 8) throw new Error("Use at least 8 characters.");
         const { error } = await supabase.auth.updateUser({
