@@ -64,6 +64,46 @@ function SettingsPage() {
   const [pin, setPin] = useState({ current: "", next: "", confirm: "" });
   const [savingPin, setSavingPin] = useState(false);
 
+  const [freezePin, setFreezePin] = useState("");
+  const [savingFreeze, setSavingFreeze] = useState(false);
+  const [secPin, setSecPin] = useState({ current: "", next: "", confirm: "" });
+  const [savingSecPin, setSavingSecPin] = useState(false);
+
+  const toggleFreeze = async (locked: boolean) => {
+    if (freezePin.length !== 4) {
+      toast.error("Enter your 4-digit security PIN first.");
+      return;
+    }
+    setSavingFreeze(true);
+    try {
+      await setAccountLocked(locked, freezePin);
+      setFreezePin("");
+      toast.success(locked ? "Account frozen" : "Account unfrozen");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't update your account.");
+    } finally {
+      setSavingFreeze(false);
+    }
+  };
+
+  const saveSecurityPin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (secPin.next !== secPin.confirm) {
+      toast.error("The new security PINs don't match.");
+      return;
+    }
+    setSavingSecPin(true);
+    try {
+      await changeSecurityPin(secPin.current, secPin.next);
+      setSecPin({ current: "", next: "", confirm: "" });
+      toast.success("Security PIN changed");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't change security PIN.");
+    } finally {
+      setSavingSecPin(false);
+    }
+  };
+
   const saveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.fullName.trim() || !form.email.trim()) {
