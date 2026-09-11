@@ -37,7 +37,7 @@ export const Route = createFileRoute("/_shell/settings")({
 });
 
 function SettingsPage() {
-  const { state, updateProfile, changePassword, setDarkMode, signOut } = useBank();
+  const { state, updateProfile, changePassword, changePin, setDarkMode, signOut } = useBank();
   const navigate = useNavigate();
   const p = state.profile;
 
@@ -51,6 +51,9 @@ function SettingsPage() {
 
   const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [savingPw, setSavingPw] = useState(false);
+
+  const [pin, setPin] = useState({ current: "", next: "", confirm: "" });
+  const [savingPin, setSavingPin] = useState(false);
 
   const saveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
