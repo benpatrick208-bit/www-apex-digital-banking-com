@@ -105,6 +105,8 @@ export function emptyState(): BankState {
       memberSince: "",
       creditScore: 650,
       pin: "0000",
+      securityPin: "0000",
+      accountLocked: false,
     },
     accounts: [],
     txns: [],
