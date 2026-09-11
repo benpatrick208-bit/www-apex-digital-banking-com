@@ -314,6 +314,104 @@ function SettingsPage() {
 
           <Card>
             <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="size-4 text-primary" /> Account freeze
+              </CardTitle>
+              <CardDescription>
+                Freezing blocks all transfers and deposits. It uses a separate security PIN,
+                not your transaction PIN.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between rounded-lg border p-3">
+                <div>
+                  <p className="text-sm font-medium">
+                    {state.profile.accountLocked ? "Account is frozen" : "Account is active"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {state.profile.accountLocked
+                      ? "Transfers and deposits are blocked."
+                      : "Transfers and deposits are allowed."}
+                  </p>
+                </div>
+                <Switch
+                  checked={state.profile.accountLocked}
+                  disabled={savingFreeze || freezePin.length !== 4}
+                  onCheckedChange={(on) => toggleFreeze(on)}
+                  aria-label="Freeze account"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="freezePin">Security PIN</Label>
+                <Input
+                  id="freezePin"
+                  type="password"
+                  inputMode="numeric"
+                  maxLength={4}
+                  placeholder="4-digit security PIN"
+                  value={freezePin}
+                  onChange={(e) => setFreezePin(e.target.value.replace(/\D/g, ""))}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Enter your security PIN, then use the switch above.
+                </p>
+              </div>
+
+              <Separator />
+
+              <form className="space-y-4" onSubmit={saveSecurityPin}>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-medium">Change security PIN</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Starts as 0000 — set your own, different from your transaction PIN.
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="secCurrent">Current security PIN</Label>
+                  <Input
+                    id="secCurrent"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={secPin.current}
+                    onChange={(e) => setSecPin({ ...secPin, current: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="secNext">New security PIN</Label>
+                  <Input
+                    id="secNext"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={secPin.next}
+                    onChange={(e) => setSecPin({ ...secPin, next: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="secConfirm">Confirm new security PIN</Label>
+                  <Input
+                    id="secConfirm"
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={4}
+                    value={secPin.confirm}
+                    onChange={(e) => setSecPin({ ...secPin, confirm: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" disabled={savingSecPin}>
+                  {savingSecPin ? <Loader2 className="size-4 animate-spin" /> : null}
+                  Change security PIN
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle>Preferences</CardTitle>
               <CardDescription>Appearance and account controls.</CardDescription>
             </CardHeader>
