@@ -1,0 +1,17 @@
+{
+  "name": "Apex Digital Bank",
+  "short_name": "Apex",
+  "description": "Secure online and mobile banking from Apex Digital Bank.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101f3f",
+  "theme_color": "#101f3f",
+  "icons": [
+    {
+      "src": "/apex-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -14,6 +14,9 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BankProvider } from "@/lib/bank-store";
 import { Toaster } from "@/components/ui/sonner";
 
+const siteUrl = "https://www-apex-digital-banking-com.vercel.app";
+const brandLogoUrl = `${siteUrl}/apex-logo.svg`;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -92,12 +95,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Premium digital banking: balances, transfers, deposits and card controls.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: siteUrl },
+      { property: "og:site_name", content: "Apex Digital Bank" },
+      { property: "og:image", content: brandLogoUrl },
+      { property: "og:image:alt", content: "Apex Digital Bank logo" },
+      { property: "og:image:type", content: "image/svg+xml" },
+      { property: "og:image:width", content: "512" },
+      { property: "og:image:height", content: "512" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Apex Digital Bank — Online & Mobile Banking" },
+      { name: "twitter:description", content: "Premium digital banking from Apex Digital Bank." },
+      { name: "twitter:image", content: brandLogoUrl },
+      { name: "twitter:image:alt", content: "Apex Digital Bank logo" },
       { name: "theme-color", content: "#101f3f" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/apex-logo.svg", type: "image/svg+xml" },
+      { rel: "shortcut icon", href: "/apex-logo.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apex-logo.svg" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "canonical", href: siteUrl },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
